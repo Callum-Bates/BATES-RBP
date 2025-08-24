@@ -1,0 +1,34 @@
+##gff-version 3
+#!gff-spec-version 1.21
+#!processor NCBI annotwriter
+#!genome-build ASM288969v1
+#!genome-build-accession NCBI_Assembly:GCA_002889695.1
+##sequence-region L01442.2 1 11447
+##species https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=11036
+L01442.2	Genbank	region	1	11447	.	+	.	ID=L01442.2:1..11447;Dbxref=taxon:11036;gb-acronym=VEEV;gbkey=Src;isolate=donkey/Trinidad/1943;mol_type=genomic RNA;strain=Trinidad donkey
+L01442.2	Genbank	mRNA	1	11447	.	+	.	ID=rna-L01442.2:1..11447;Note=putative;function=genomic mRNA;gbkey=mRNA
+L01442.2	Genbank	exon	1	11447	.	+	.	ID=exon-L01442.2:1..11447-1;Parent=rna-L01442.2:1..11447;Note=putative;function=genomic mRNA;gbkey=mRNA
+L01442.2	Genbank	gene	1	7526	.	+	.	ID=gene-NS;Name=NS;gbkey=Gene;gene=NS;gene_biotype=protein_coding
+L01442.2	Genbank	CDS	45	7526	.	+	0	ID=cds-AAC19321.2;Parent=gene-NS;Dbxref=NCBI_GP:AAC19321.2;Name=AAC19321.2;Note=possible incorporation of arginine%2C cysteine or tryptophan at read through of UGA codon;gbkey=CDS;gene=NS;product=putative nonstructural polyprotein precursor;protein_id=AAC19321.2;transl_except=(pos:5682..5684%2Caa:Arg)
+L01442.2	Genbank	mature_protein_region_of_CDS	45	1649	.	+	.	ID=id-AAC19321.2:1..535;Parent=cds-AAC19321.2;function=minus strand RNA synthesis%3B methyltransferase%3B guanyltransferase;gbkey=Prot;product=nonstructural protein nsP1
+L01442.2	Genbank	mature_protein_region_of_CDS	1650	4031	.	+	.	ID=id-AAC19321.2:536..1329;Parent=cds-AAC19321.2;function=RNA helicase%3B nonstructural proteinase%3B necessary for subgenomic 26S mRNA synthesis;gbkey=Prot;product=nonstructural protein nsP2
+L01442.2	Genbank	mature_protein_region_of_CDS	4032	5702	.	+	.	ID=id-AAC19321.2:1330..1886;Parent=cds-AAC19321.2;gbkey=Prot;product=nonstructural protein nsP3
+L01442.2	Genbank	mature_protein_region_of_CDS	5703	7523	.	+	.	ID=id-AAC19321.2:1887..2493;Parent=cds-AAC19321.2;function=RNA polymerase;gbkey=Prot;product=nonstructural protein nsP4
+L01442.2	Genbank	CDS	45	5684	.	+	0	ID=cds-AAC19323.2;Parent=gene-NS;Dbxref=NCBI_GP:AAC19323.2;Name=AAC19323.2;gbkey=CDS;gene=NS;product=putative nonstructural polyprotein precursor;protein_id=AAC19323.2
+L01442.2	Genbank	region	106	107	.	+	.	ID=id-NS;Note=this correction changes amino acid nsP1-21-Thr to nsP1-21-Ser%2C this 1992 data corrects the 1989 reference in citation [3];gbkey=old_sequence;gene=NS;replace=gc
+L01442.2	Genbank	region	1533	1534	.	+	.	ID=id-NS-2;Note=this correction results in changing amino acid nsP1-497-Arg to nsP1-497-Ala%2C this 1992 data corrects the sequence reported in the 1989 reference in citation [3];gbkey=old_sequence;gene=NS;replace=gc
+L01442.2	Genbank	region	1696	1696	.	+	.	ID=id-NS-3;Note=this correction results in changing amino acid nsP2-16-Asp to nsP2-16-Ala%2C this correction adds another difference between the Trinidad donkey and vaccine TC-83 strains reported in citation [3];gbkey=old_sequence;gene=NS;replace=c
+L01442.2	Genbank	five_prime_UTR	1	44	.	+	.	ID=id-NS-4;Parent=gene-NS;gbkey=5'UTR;gene=NS
+L01442.2	Genbank	gene	7532	11444	.	+	.	ID=gene-26S mRNA;Name=26S mRNA;gbkey=Gene;gene=26S mRNA;gene_biotype=protein_coding
+L01442.2	Genbank	mRNA	7532	11444	.	+	.	ID=rna-26S mRNA;Parent=gene-26S mRNA;Note=the structural proteins of the virus are translated as a polyprotein precursor molecule from an intracellular%2C 26S mRNA species that is identical to the 3'-one-third portion of the viral genomic mRNA%3B putative;function=intracellular%2C subgenomic viral mRNA species;gbkey=mRNA;gene=26S mRNA
+L01442.2	Genbank	exon	7532	11444	.	+	.	ID=exon-26S mRNA-1;Parent=rna-26S mRNA;Note=the structural proteins of the virus are translated as a polyprotein precursor molecule from an intracellular%2C 26S mRNA species that is identical to the 3'-one-third portion of the viral genomic mRNA%3B putative;function=intracellular%2C subgenomic viral mRNA species;gbkey=mRNA;gene=26S mRNA
+L01442.2	Genbank	CDS	7562	11329	.	+	0	ID=cds-AAC19322.1;Parent=rna-26S mRNA;Dbxref=NCBI_GP:AAC19322.1;Name=AAC19322.1;Note=putative;gbkey=CDS;gene=26S mRNA;product=structural polyprotein;protein_id=AAC19322.1
+L01442.2	Genbank	mature_protein_region_of_CDS	7562	8386	.	+	.	ID=id-AAC19322.1:1..275;Note=putative;Parent=cds-AAC19322.1;function=encloses the genomic mRNA molecule;gbkey=Prot;product=capsid protein
+L01442.2	Genbank	mature_protein_region_of_CDS	9833	10000	.	+	.	ID=id-AAC19322.1:758..813;Note=putative;Parent=cds-AAC19322.1;gbkey=Prot;product=6K polypeptide
+L01442.2	Genbank	region	9989	9991	.	+	.	ID=id-26S mRNA;Note=an extra codon has been resolved at the compressed sequence region of the 3'-end of the 6K gene%2C this correction results in the insertion of a ggc (Gly) codon between the old positions 9988-9989;gbkey=old_sequence;gene=26S mRNA;replace=ggc
+L01442.2	Genbank	gene	8387	8563	.	+	.	ID=gene-E3;Name=E3;gbkey=Gene;gene=E3;gene_biotype=other
+L01442.2	Genbank	gene	8564	9832	.	+	.	ID=gene-E2;Name=E2;gbkey=Gene;gene=E2;gene_biotype=other
+L01442.2	Genbank	gene	10001	11326	.	+	.	ID=gene-E1;Name=E1;gbkey=Gene;gene=E1;gene_biotype=other
+L01442.2	Genbank	three_prime_UTR	11327	11447	.	+	.	ID=id-L01442.2:11327..11447;gbkey=3'UTR
+L01442.2	Genbank	polyA_site	11447	11447	.	+	.	ID=id-L01442.2:11447..11447;gbkey=polyA_site
+###

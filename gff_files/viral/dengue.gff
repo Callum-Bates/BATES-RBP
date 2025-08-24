@@ -1,0 +1,10 @@
+##gff-version 3
+#!gff-spec-version 1.21
+#!processor NCBI annotwriter
+#!genome-build ViralProj20183
+#!genome-build-accession NCBI_Assembly:GCA_000871845.1
+##sequence-region U87411.1 1 10723
+##species https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=31634
+U87411.1	Genbank	region	1	10723	.	+	.	ID=U87411.1:1..10723;Dbxref=taxon:31634;gbkey=Src;mol_type=mRNA;old-name=Dengue virus type 2 (strain 16681);strain=16681
+U87411.1	Genbank	CDS	97	10272	.	+	0	ID=cds-AAB58782.1;Dbxref=NCBI_GP:AAB58782.1;Name=AAB58782.1;Note=contains structural proteins%2C C-prM/M-E and  non-structural proteins%2C NS1-NS2A/B-NS3-NS4A/B-NS5;gbkey=CDS;product=polyprotein;protein_id=AAB58782.1
+###

@@ -1,0 +1,21 @@
+##gff-version 3
+#!gff-spec-version 1.21
+#!processor NCBI annotwriter
+#!genome-build ASM879658v1
+#!genome-build-accession NCBI_Assembly:GCA_008796585.1
+##sequence-region FJ445144.1 1 7139
+##species https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=185920
+FJ445144.1	Genbank	region	1	7139	.	+	.	ID=FJ445144.1:1..7139;Dbxref=taxon:185920;culture-collection=ATCC:VR-1171;gb-acronym=HRV-A61;gbkey=Src;mol_type=genomic RNA;note=hrv-61;old-name=Human rhinovirus 61;strain=ATCC VR-1171
+FJ445144.1	Genbank	CDS	619	7101	.	+	0	ID=cds-ACK37400.1;Dbxref=NCBI_GP:ACK37400.1;Name=ACK37400.1;gbkey=CDS;product=polyprotein;protein_id=ACK37400.1
+FJ445144.1	Genbank	mature_protein_region_of_CDS	619	825	.	+	.	ID=id-ACK37400.1:1..69;Parent=cds-ACK37400.1;gbkey=Prot;product=1A
+FJ445144.1	Genbank	mature_protein_region_of_CDS	826	1608	.	+	.	ID=id-ACK37400.1:70..330;Parent=cds-ACK37400.1;gbkey=Prot;product=1B
+FJ445144.1	Genbank	mature_protein_region_of_CDS	1609	2322	.	+	.	ID=id-ACK37400.1:331..568;Parent=cds-ACK37400.1;gbkey=Prot;product=1C
+FJ445144.1	Genbank	mature_protein_region_of_CDS	2323	3198	.	+	.	ID=id-ACK37400.1:569..860;Parent=cds-ACK37400.1;gbkey=Prot;product=1D
+FJ445144.1	Genbank	mature_protein_region_of_CDS	3199	3624	.	+	.	ID=id-ACK37400.1:861..1002;Parent=cds-ACK37400.1;gbkey=Prot;product=2A
+FJ445144.1	Genbank	mature_protein_region_of_CDS	3625	3909	.	+	.	ID=id-ACK37400.1:1003..1097;Parent=cds-ACK37400.1;gbkey=Prot;product=2B
+FJ445144.1	Genbank	mature_protein_region_of_CDS	3910	4875	.	+	.	ID=id-ACK37400.1:1098..1419;Parent=cds-ACK37400.1;gbkey=Prot;product=2C
+FJ445144.1	Genbank	mature_protein_region_of_CDS	4876	5106	.	+	.	ID=id-ACK37400.1:1420..1496;Parent=cds-ACK37400.1;gbkey=Prot;product=3A
+FJ445144.1	Genbank	mature_protein_region_of_CDS	5107	5169	.	+	.	ID=id-ACK37400.1:1497..1517;Parent=cds-ACK37400.1;gbkey=Prot;product=3B
+FJ445144.1	Genbank	mature_protein_region_of_CDS	5170	5718	.	+	.	ID=id-ACK37400.1:1518..1700;Parent=cds-ACK37400.1;gbkey=Prot;product=3C
+FJ445144.1	Genbank	mature_protein_region_of_CDS	5719	7098	.	+	.	ID=id-ACK37400.1:1701..2160;Parent=cds-ACK37400.1;gbkey=Prot;product=3D
+###

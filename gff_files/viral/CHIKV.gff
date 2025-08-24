@@ -1,0 +1,11 @@
+##gff-version 3
+#!gff-spec-version 1.21
+#!processor NCBI annotwriter
+#!genome-build ViralProj14998
+#!genome-build-accession NCBI_Assembly:GCA_000854045.1
+##sequence-region AF369024.2 1 11826
+##species https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=37124
+AF369024.2	Genbank	region	1	11826	.	+	.	ID=AF369024.2:1..11826;Dbxref=taxon:37124;gbkey=Src;isolation-source=originally isolated from a febrile patient%3B in this study the strain was passaged in Aedes albopticus C6/36 cell line;mol_type=genomic RNA;strain=S27-African prototype
+AF369024.2	Genbank	CDS	77	7501	.	+	0	ID=cds-AAN05101.1;Dbxref=NCBI_GP:AAN05101.1;Name=AAN05101.1;gbkey=CDS;product=nonstructural polyprotein;protein_id=AAN05101.1
+AF369024.2	Genbank	CDS	7567	11313	.	+	0	ID=cds-AAN05102.2;Dbxref=NCBI_GP:AAN05102.2;Name=AAN05102.2;gbkey=CDS;product=structural polyprotein;protein_id=AAN05102.2
+###

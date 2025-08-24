@@ -1,0 +1,54 @@
+##gff-version 3
+#!gff-spec-version 1.21
+#!processor NCBI annotwriter
+#!genome-build ViralMultiSegProj274766
+#!genome-build-accession NCBI_Assembly:GCA_001343785.1
+##sequence-region FJ984387.1 1 2280
+##species https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=641809
+FJ984387.1	Genbank	region	1	2280	.	+	.	ID=FJ984387.1:1..2280;Dbxref=taxon:641809;Name=1;collection-date=09-Apr-2009;country=USA: California state;gbkey=Src;mol_type=viral cRNA;nat-host=Homo sapiens%3B gender M%3B age 54;segment=1;serotype=H1N1;strain=A/California/07/2009
+FJ984387.1	Genbank	gene	1	2280	.	+	.	ID=gene-PB2;Name=PB2;gbkey=Gene;gene=PB2;gene_biotype=protein_coding
+FJ984387.1	Genbank	CDS	1	2280	.	+	0	ID=cds-ACQ63273.1;Parent=gene-PB2;Dbxref=NCBI_GP:ACQ63273.1;Name=ACQ63273.1;gbkey=CDS;gene=PB2;product=polymerase PB2;protein_id=ACQ63273.1
+##sequence-region GQ323558.1 1 2274
+##species https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=641809
+GQ323558.1	Genbank	region	1	2274	.	+	.	ID=GQ323558.1:1..2274;Dbxref=taxon:641809;Name=2;collection-date=09-Apr-2009;country=USA: California state;gbkey=Src;mol_type=viral cRNA;nat-host=Homo sapiens%3B gender M%3B age 54;segment=2;serotype=H1N1;strain=A/California/07/2009
+GQ323558.1	Genbank	gene	1	2274	.	+	.	ID=gene-PB1;Name=PB1;gbkey=Gene;gene=PB1;gene_biotype=protein_coding
+GQ323558.1	Genbank	CDS	1	2274	.	+	0	ID=cds-ACS72613.1;Parent=gene-PB1;Dbxref=NCBI_GP:ACS72613.1;Name=ACS72613.1;gbkey=CDS;gene=PB1;product=polymerase PB1;protein_id=ACS72613.1
+GQ323558.1	Genbank	gene	95	367	.	+	.	ID=gene-PB1-F2;Name=PB1-F2;gbkey=Gene;gene=PB1-F2;gene_biotype=other
+GQ323558.1	Genbank	sequence_feature	95	367	.	+	.	ID=id-PB1-F2;Note=nonfunctional PB1-F2 protein due to mutation;gbkey=misc_feature;gene=PB1-F2
+##sequence-region FJ969539.1 1 2151
+##species https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=641809
+FJ969539.1	Genbank	region	1	2151	.	+	.	ID=FJ969539.1:1..2151;Dbxref=taxon:641809;Name=3;collection-date=09-Apr-2009;country=USA: California state;gbkey=Src;mol_type=viral cRNA;nat-host=Homo sapiens%3B gender M%3B age 54;segment=3;serotype=H1N1;strain=A/California/07/2009
+FJ969539.1	Genbank	gene	1	2151	.	+	.	ID=gene-PA;Name=PA;gbkey=Gene;gene=PA;gene_biotype=protein_coding
+FJ969539.1	Genbank	CDS	1	2151	.	+	0	ID=cds-ACP44188.1;Parent=gene-PA;Dbxref=NCBI_GP:ACP44188.1;Name=ACP44188.1;gbkey=CDS;gene=PA;product=polymerase PA;protein_id=ACP44188.1
+##sequence-region FJ969540.1 1 1701
+##species https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=641809
+FJ969540.1	Genbank	region	1	1701	.	+	.	ID=FJ969540.1:1..1701;Dbxref=taxon:641809;Name=4;collection-date=09-Apr-2009;country=USA: California state;gbkey=Src;mol_type=viral cRNA;nat-host=Homo sapiens%3B gender M%3B age 54;segment=4;serotype=H1N1;strain=A/California/07/2009
+FJ969540.1	Genbank	gene	1	1701	.	+	.	ID=gene-HA;Name=HA;gbkey=Gene;gene=HA;gene_biotype=protein_coding
+FJ969540.1	Genbank	CDS	1	1701	.	+	0	ID=cds-ACP44189.1;Parent=gene-HA;Dbxref=NCBI_GP:ACP44189.1;Name=ACP44189.1;gbkey=CDS;gene=HA;product=hemagglutinin;protein_id=ACP44189.1
+##sequence-region FJ969536.1 1 1497
+##species https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=641809
+FJ969536.1	Genbank	region	1	1497	.	+	.	ID=FJ969536.1:1..1497;Dbxref=taxon:641809;Name=5;collection-date=09-Apr-2009;country=USA: California state;gbkey=Src;mol_type=viral cRNA;nat-host=Homo sapiens%3B gender M%3B age 54;segment=5;serotype=H1N1;strain=A/California/07/2009
+FJ969536.1	Genbank	gene	1	1497	.	+	.	ID=gene-NP;Name=NP;gbkey=Gene;gene=NP;gene_biotype=protein_coding
+FJ969536.1	Genbank	CDS	1	1497	.	+	0	ID=cds-ACP44183.1;Parent=gene-NP;Dbxref=NCBI_GP:ACP44183.1;Name=ACP44183.1;gbkey=CDS;gene=NP;product=nucleocapsid protein;protein_id=ACP44183.1
+##sequence-region FJ984386.1 1 1410
+##species https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=641809
+FJ984386.1	Genbank	region	1	1410	.	+	.	ID=FJ984386.1:1..1410;Dbxref=taxon:641809;Name=6;collection-date=09-Apr-2009;country=USA: California state;gbkey=Src;mol_type=viral cRNA;nat-host=Homo sapiens%3B gender M%3B age 54;segment=6;serotype=H1N1;strain=A/California/07/2009
+FJ984386.1	Genbank	gene	1	1410	.	+	.	ID=gene-NA;Name=NA;gbkey=Gene;gene=NA;gene_biotype=protein_coding
+FJ984386.1	Genbank	CDS	1	1410	.	+	0	ID=cds-ACQ63272.1;Parent=gene-NA;Dbxref=NCBI_GP:ACQ63272.1;Name=ACQ63272.1;gbkey=CDS;gene=NA;product=neuraminidase;protein_id=ACQ63272.1
+##sequence-region FJ969537.1 1 982
+##species https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=641809
+FJ969537.1	Genbank	region	1	982	.	+	.	ID=FJ969537.1:1..982;Dbxref=taxon:641809;Name=7;collection-date=09-Apr-2009;country=USA: California state;gbkey=Src;mol_type=viral cRNA;nat-host=Homo sapiens%3B gender M%3B age 54;segment=7;serotype=H1N1;strain=A/California/07/2009
+FJ969537.1	Genbank	gene	1	982	.	+	.	ID=gene-M2;Name=M2;gbkey=Gene;gene=M2;gene_biotype=protein_coding
+FJ969537.1	Genbank	CDS	1	26	.	+	0	ID=cds-ACP44185.1;Parent=gene-M2;Dbxref=NCBI_GP:ACP44185.1;Name=ACP44185.1;gbkey=CDS;gene=M2;product=matrix protein 2;protein_id=ACP44185.1
+FJ969537.1	Genbank	CDS	715	982	.	+	1	ID=cds-ACP44185.1;Parent=gene-M2;Dbxref=NCBI_GP:ACP44185.1;Name=ACP44185.1;gbkey=CDS;gene=M2;product=matrix protein 2;protein_id=ACP44185.1
+FJ969537.1	Genbank	gene	1	759	.	+	.	ID=gene-M1;Name=M1;gbkey=Gene;gene=M1;gene_biotype=protein_coding
+FJ969537.1	Genbank	CDS	1	759	.	+	0	ID=cds-ACP44184.1;Parent=gene-M1;Dbxref=NCBI_GP:ACP44184.1;Name=ACP44184.1;gbkey=CDS;gene=M1;product=matrix protein 1;protein_id=ACP44184.1
+##sequence-region FJ969538.1 1 863
+##species https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=641809
+FJ969538.1	Genbank	region	1	863	.	+	.	ID=FJ969538.1:1..863;Dbxref=taxon:641809;Name=8;collection-date=09-Apr-2009;country=USA: California state;gbkey=Src;mol_type=viral cRNA;nat-host=Homo sapiens%3B gender M%3B age 54;segment=8;serotype=H1N1;strain=A/California/07/2009
+FJ969538.1	Genbank	gene	1	838	.	+	.	ID=gene-NEP;Name=NEP;gbkey=Gene;gene=NEP;gene_biotype=protein_coding;gene_synonym=NS2
+FJ969538.1	Genbank	CDS	1	30	.	+	0	ID=cds-ACP44187.1;Parent=gene-NEP;Dbxref=NCBI_GP:ACP44187.1;Name=ACP44187.1;Note=nonstructural protein 2;gbkey=CDS;gene=NEP;product=nuclear export protein;protein_id=ACP44187.1
+FJ969538.1	Genbank	CDS	503	838	.	+	0	ID=cds-ACP44187.1;Parent=gene-NEP;Dbxref=NCBI_GP:ACP44187.1;Name=ACP44187.1;Note=nonstructural protein 2;gbkey=CDS;gene=NEP;product=nuclear export protein;protein_id=ACP44187.1
+FJ969538.1	Genbank	gene	1	660	.	+	.	ID=gene-NS1;Name=NS1;gbkey=Gene;gene=NS1;gene_biotype=protein_coding
+FJ969538.1	Genbank	CDS	1	660	.	+	0	ID=cds-ACP44186.1;Parent=gene-NS1;Dbxref=NCBI_GP:ACP44186.1;Name=ACP44186.1;gbkey=CDS;gene=NS1;product=nonstructural protein 1;protein_id=ACP44186.1
+###

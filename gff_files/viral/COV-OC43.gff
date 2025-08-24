@@ -1,0 +1,37 @@
+##gff-version 3
+#!gff-spec-version 1.21
+#!processor NCBI annotwriter
+#!genome-build ASM397232v1
+#!genome-build-accession NCBI_Assembly:GCA_003972325.1
+##sequence-region AY585228.1 1 30741
+##species https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=31631
+AY585228.1	Genbank	region	1	30741	.	+	.	ID=AY585228.1:1..30741;Dbxref=taxon:31631,ATCC:VR-759;country=USA;gb-synonym=HCoV-OC43;gbkey=Src;mol_type=genomic RNA;serotype=OC43;strain=ATCC VR-759
+AY585228.1	Genbank	gene	210	21496	.	+	.	ID=gene-orf1ab;Name=orf1ab;gbkey=Gene;gene=orf1ab;gene_biotype=protein_coding
+AY585228.1	Genbank	CDS	210	13340	.	+	0	ID=cds-AAT84351.1;Parent=gene-orf1ab;Dbxref=NCBI_GP:AAT84351.1;Name=AAT84351.1;Note=translated via a -1 ribosomal frameshift%3B ORF 1a/1b;exception=ribosomal slippage;gbkey=CDS;gene=orf1ab;product=Orf1ab;protein_id=AAT84351.1
+AY585228.1	Genbank	CDS	13340	21496	.	+	0	ID=cds-AAT84351.1;Parent=gene-orf1ab;Dbxref=NCBI_GP:AAT84351.1;Name=AAT84351.1;Note=translated via a -1 ribosomal frameshift%3B ORF 1a/1b;exception=ribosomal slippage;gbkey=CDS;gene=orf1ab;product=Orf1ab;protein_id=AAT84351.1
+AY585228.1	Genbank	mature_protein_region_of_CDS	210	947	.	+	.	ID=id-AAT84351.1:1..246;Note=PL1-PRO cleavage product;Parent=cds-AAT84351.1;gbkey=Prot;product=leader protein
+AY585228.1	Genbank	mature_protein_region_of_CDS	948	2762	.	+	.	ID=id-AAT84351.1:247..851;Note=PL1-PRO cleavage product;Parent=cds-AAT84351.1;gbkey=Prot;product=MHV p65-like protein
+AY585228.1	Genbank	mature_protein_region_of_CDS	2763	8459	.	+	.	ID=id-AAT84351.1:852..2750;Note=PL1-PRO%3B PL2-PRO%3B HD%3B contains papain-like proteinase 1 domain (PL1-PRO)%2C X-domain%2C papain-like proteinase 2 domain (PL2-PRO) and hydrophobic domain (HD);Parent=cds-AAT84351.1;gbkey=Prot;product=nsp1
+AY585228.1	Genbank	mature_protein_region_of_CDS	8460	9947	.	+	.	ID=id-AAT84351.1:2751..3246;Parent=cds-AAT84351.1;gbkey=Prot;product=transmembrane domain 2
+AY585228.1	Genbank	mature_protein_region_of_CDS	9948	10856	.	+	.	ID=id-AAT84351.1:3247..3549;Note=3CL-PRO cleavage product;Parent=cds-AAT84351.1;gbkey=Prot;product=nsp2
+AY585228.1	Genbank	mature_protein_region_of_CDS	10857	11717	.	+	.	ID=id-AAT84351.1:3550..3836;Note=HD2%3B hydrophobic domain;Parent=cds-AAT84351.1;gbkey=Prot;product=nsp3
+AY585228.1	Genbank	mature_protein_region_of_CDS	11718	11984	.	+	.	ID=id-AAT84351.1:3837..3925;Parent=cds-AAT84351.1;gbkey=Prot;product=nsp4
+AY585228.1	Genbank	mature_protein_region_of_CDS	11985	12575	.	+	.	ID=id-AAT84351.1:3926..4122;Parent=cds-AAT84351.1;gbkey=Prot;product=nsp5
+AY585228.1	Genbank	mature_protein_region_of_CDS	12576	12905	.	+	.	ID=id-AAT84351.1:4123..4232;Parent=cds-AAT84351.1;gbkey=Prot;product=nsp6
+AY585228.1	Genbank	mature_protein_region_of_CDS	12906	13316	.	+	.	ID=id-AAT84351.1:4233..4369;Note=GFL%3B growth-factor-like protein;Parent=cds-AAT84351.1;gbkey=Prot;product=nsp7
+AY585228.1	Genbank	mature_protein_region_of_CDS	13317	13340	.	+	.	ID=id-AAT84351.1:4370..5297;Note=RNA-dependent RNA polymerase;Parent=cds-AAT84351.1;gbkey=Prot;product=nsp9
+AY585228.1	Genbank	mature_protein_region_of_CDS	13340	16099	.	+	.	ID=id-AAT84351.1:4370..5297;Note=RNA-dependent RNA polymerase;Parent=cds-AAT84351.1;gbkey=Prot;product=nsp9
+AY585228.1	Genbank	mature_protein_region_of_CDS	16100	17908	.	+	.	ID=id-AAT84351.1:5298..5900;Note=MB%3B NTPase/HEL%3B metal-binding domain%3B NTPase/helicase domain;Parent=cds-AAT84351.1;gbkey=Prot;product=nsp10
+AY585228.1	Genbank	mature_protein_region_of_CDS	17909	19471	.	+	.	ID=id-AAT84351.1:5901..6421;Parent=cds-AAT84351.1;gbkey=Prot;product=nsp11
+AY585228.1	Genbank	mature_protein_region_of_CDS	19472	20596	.	+	.	ID=id-AAT84351.1:6422..6796;Parent=cds-AAT84351.1;gbkey=Prot;product=nsp12
+AY585228.1	Genbank	mature_protein_region_of_CDS	20597	21493	.	+	.	ID=id-AAT84351.1:6797..7095;Parent=cds-AAT84351.1;gbkey=Prot;product=nsp13
+AY585228.1	Genbank	gene	21506	22342	.	+	.	ID=gene-ns2;Name=ns2;gbkey=Gene;gene=ns2;gene_biotype=protein_coding
+AY585228.1	Genbank	CDS	21506	22342	.	+	0	ID=cds-AAT84352.1;Parent=gene-ns2;Dbxref=NCBI_GP:AAT84352.1;Name=AAT84352.1;Note=non-structural protein;gbkey=CDS;gene=ns2;product=ns2;protein_id=AAT84352.1
+AY585228.1	Genbank	CDS	22354	23628	.	+	0	ID=cds-AAT84353.1;Dbxref=NCBI_GP:AAT84353.1;Name=AAT84353.1;gbkey=CDS;product=hemagglutinin-esterase;protein_id=AAT84353.1
+AY585228.1	Genbank	CDS	23643	27704	.	+	0	ID=cds-AAT84354.1;Dbxref=NCBI_GP:AAT84354.1;Name=AAT84354.1;gbkey=CDS;product=spike surface glycoprotein;protein_id=AAT84354.1
+AY585228.1	Genbank	gene	27792	28121	.	+	.	ID=gene-ns12.9;Name=ns12.9;gbkey=Gene;gene=ns12.9;gene_biotype=protein_coding
+AY585228.1	Genbank	CDS	27792	28121	.	+	0	ID=cds-AAT84355.1;Parent=gene-ns12.9;Dbxref=NCBI_GP:AAT84355.1;Name=AAT84355.1;Note=non-structural protein;gbkey=CDS;gene=ns12.9;product=ns12.9;protein_id=AAT84355.1
+AY585228.1	Genbank	CDS	28108	28362	.	+	0	ID=cds-AAT84356.1;Dbxref=NCBI_GP:AAT84356.1;Name=AAT84356.1;gbkey=CDS;product=envelope protein;protein_id=AAT84356.1
+AY585228.1	Genbank	CDS	28377	29069	.	+	0	ID=cds-AAT84357.1;Dbxref=NCBI_GP:AAT84357.1;Name=AAT84357.1;gbkey=CDS;product=membrane protein;protein_id=AAT84357.1
+AY585228.1	Genbank	CDS	29079	30425	.	+	0	ID=cds-AAT84358.1;Dbxref=NCBI_GP:AAT84358.1;Name=AAT84358.1;gbkey=CDS;product=nucleocapsid protein;protein_id=AAT84358.1
+###
