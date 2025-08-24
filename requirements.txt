@@ -1,0 +1,14 @@
+Bio==1.8.0
+biopython==1.85
+dash==3.0.4
+dash_bio==1.0.2
+dash_bootstrap_components==2.0.4
+Flask==2.2.5
+gffutils==0.13
+goatools==1.4.12
+logomaker==0.8.7
+matplotlib==3.8.0
+numpy==1.23.5
+pandas==2.3.2
+plotly==5.9.0
+setuptools==68.2.2

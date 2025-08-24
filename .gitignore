@@ -1,0 +1,29 @@
+# Ignore only large model/data files
+*.h5
+*.hdf5
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.pb
+*.npy
+*.npz
+*.pkl
+*.joblib
+*.tar
+*.tar.gz
+*.zip
+
+# Ignore Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignore OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+dbs/
+*.db
