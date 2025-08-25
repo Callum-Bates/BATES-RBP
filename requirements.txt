@@ -12,3 +12,4 @@ numpy==1.23.5
 pandas==2.3.2
 plotly==5.9.0
 setuptools==68.2.2
+gdown==5.2.0
