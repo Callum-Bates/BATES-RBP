@@ -1,0 +1,3 @@
+[console_scripts]
+bates-rbp = bates_rbp.app:main
+bates-rbp-download-models = bates_rbp.get_models:main

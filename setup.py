@@ -15,12 +15,13 @@ setup(
         "requests",
         "biopython",
         "gdown",
-        # add any other dependencies your app uses
+
     ],
     entry_points={
-        "console_scripts": [
-            "bates-rbp = app:main",                 # launch the Dash app
-            "bates-rbp-download-models = get_models:main",  # download DeepCLIP and RBPNet models
-        ]
-    },
+    "console_scripts": [
+        "bates-rbp = bates_rbp.app:main",                  # launches app
+        "bates-rbp-download-models = bates_rbp.get_models:main",  # downloads models
+    ]
+},
+
 )

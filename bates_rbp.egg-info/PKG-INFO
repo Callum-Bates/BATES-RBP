@@ -1,0 +1,12 @@
+Metadata-Version: 2.1
+Name: bates-rbp
+Version: 0.1.0
+Summary: An interactive tool for RNA-binding protein (RBP) binding site prediction
+Author: Callum Bates
+Requires-Dist: dash
+Requires-Dist: dash-bio
+Requires-Dist: pandas
+Requires-Dist: numpy
+Requires-Dist: requests
+Requires-Dist: biopython
+Requires-Dist: gdown
