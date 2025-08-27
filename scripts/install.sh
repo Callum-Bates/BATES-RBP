@@ -1,6 +1,6 @@
 #!/bin/bash
 # Skip DeepCLIP for now due to Python 2.7 issues
-SKIP_DEEPCLIP=true
+SKIP_DEEPCLIP=false
 set -e  # Exit on any error
 
 echo "Installing BATES-RBP and dependencies..."
