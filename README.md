@@ -20,8 +20,43 @@ BATES-RBP is an RNA-RBP binding prediction and analysis suite.
 
 ## Installation
 
-** 1. Cloning the repository **
+**1. Clone the repository:**
 ```
 git clone https://github.com/Callum-Bates/BATES-RBP.git
 cd BATES-RBP
 ```
+
+**2. Run the installation script:**
+```
+chmod +x scripts/install.sh
+scripts/install.sh
+```
+
+**The installation script will:**
+
+Create conda environments for each tool
+Install all required dependencies
+Download necessary models
+Set up the web interface
+
+
+
+## Quick start
+
+**1. Activate the main environment**
+```
+conda activate bates_rbp_TEST
+```
+
+**2. Launch the app (opens browser)**
+
+```
+bates-rbp
+```
+note: must be in BATES_RBP environment as per installation step 1.
+
+
+
+
+
+
