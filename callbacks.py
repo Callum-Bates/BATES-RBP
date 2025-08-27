@@ -1,7 +1,7 @@
 import dash
 from dash import Input, Output, State, MATCH, ALL, ctx
 from dash.exceptions import PreventUpdate
-#from .helpers import *       # your helper functions
+#from .helpers import *       
 from dash import dash_table
 import plotly.express as px
 import plotly.graph_objects as go
@@ -10,7 +10,7 @@ from pathlib import Path
 from pathlib import Path
 import uuid
 import glob
-    # your helper functions
+    
 import shutil
 import os
 import shutil
@@ -72,9 +72,6 @@ from flask import send_from_directory
 
 from setuptools import setup
 
-
-
-
 def get_conda_executable():
     """Get the conda executable path with debugging"""
     print("🔍 DEBUG: Finding conda executable...")
@@ -115,6 +112,8 @@ def get_conda_executable():
     # Fallback
     print("⚠️ DEBUG: Using fallback 'conda'")
     return 'conda'
+
+
 from .constants import *
 from .helpers import *   
 
@@ -138,14 +137,14 @@ def register_callbacks(app):
     @app.callback(
         Output('binding-tab', 'style'),
         Output('structure-tab', 'style'),
-        Output('rbp-tab', 'style'),  # <--- Add this
+        Output('rbp-tab', 'style'), 
         Input('tabs', 'value')
     )
     def display_tab(tab):
         return (
             {'display': 'block'} if tab == 'binding-prediction' else {'display': 'none'},
             {'display': 'block'} if tab == 'structure-prediction' else {'display': 'none'},
-            {'display': 'block'} if tab == 'RBP-catalogue' else {'display': 'none'}  # <--- Add this
+            {'display': 'block'} if tab == 'RBP-catalogue' else {'display': 'none'}  
         )
 
 
@@ -184,7 +183,7 @@ def register_callbacks(app):
         if not fasta_id or not fasta_sequence:
             return dash.no_update, False, ""
 
-        # Normalize and sanitize inputs
+        # Normalize 
         fasta_id = fasta_id.strip().lstrip('>').replace(' ', '_')
         fasta_sequence = fasta_sequence.strip()
 
@@ -405,6 +404,8 @@ def register_callbacks(app):
 
 
     def run_method(method, model_path, selected_model, output_path, job_id):
+        print("🔍 DEBUG: Callback function started")
+
         BASE_DIR = Path(__file__).parent
         UPLOAD_DIR = BASE_DIR / "user_uploads"
         FASTA_DIR = BASE_DIR / "fasta_files"
@@ -435,82 +436,41 @@ def register_callbacks(app):
                 f.write(f">{seq_id}|rna\n{seq}\n")
 
         if method.lower() == "deepclip":
-            print(f"🔍 DEBUG: Running DeepCLIP prediction")
-            
-            # Use dynamic conda path to find the deepclip_env
             conda_exe = get_conda_executable()
-            
-            try:
-                # Get the environment path dynamically
-                env_result = subprocess.run([
-                    conda_exe, "info", "--envs"
-                ], capture_output=True, text=True)
-                
-                deepclip_env_path = None
-                for line in env_result.stdout.split('\n'):
-                    if 'deepclip_env' in line:
-                        parts = line.split()
-                        if len(parts) >= 2:
-                            deepclip_env_path = parts[-1]
-                            break
-                
-                if not deepclip_env_path:
-                    return "DeepCLIP environment (deepclip_env) not found. Please run the installation script.", []
-                
-                python_exe = f"{deepclip_env_path}/bin/python"
-                
-                # Check if Python exists
-                if not Path(python_exe).exists():
-                    return f"DeepCLIP Python not found at {python_exe}", []
-                    
-                print(f"🔍 DEBUG: Using DeepCLIP Python: {python_exe}")
-                
-            except Exception as e:
-                print(f"❌ DEBUG: Error finding DeepCLIP environment: {e}")
-                return f"Error finding DeepCLIP environment: {e}", []
-
-            # Check if DeepCLIP directory exists
-            deepclip_dir = BASE_DIR.parent / "deepclip"
-            if not deepclip_dir.exists():
-                return "DeepCLIP repository not found. Please run the installation script.", []
+            print(f"🔍 DEBUG: Final conda executable for DeepCLIP: {conda_exe}")
 
             cmd = [
-                python_exe,
+                conda_exe, "run", "-n", "deepclip_env",
+                "python",
                 "DeepCLIP.py",
                 "--runmode", "predict",
                 "-P", str(model_path),
                 "--sequences", str(fasta_path.resolve()),
                 "--predict_output_file", str(output_path)
             ]
-            
-            print(f"🔍 DEBUG: DeepCLIP command: {' '.join(cmd)}")
-            print(f"🔍 DEBUG: DeepCLIP working directory: {deepclip_dir}")
-            
-            cwd = str(deepclip_dir)
-            print(f"🔍 DEBUG: DeepCLIP command: {' '.join(cmd)}")
-            print(f"🔍 DEBUG: DeepCLIP working directory: {cwd}")
+            cwd = BASE_DIR.parent / "deepclip"  # DeepCLIP repo location
 
         elif method.lower() == "rbpnet":
+            
             conda_exe = get_conda_executable()
             print(f"🔍 DEBUG: Final conda executable for RBPNet: {conda_exe}")
 
             cmd = [
-                conda_exe, "run", "-n", "rbpnet_env",
+                "/home4/2185048b/anaconda3/envs/rbpnet_env", "run", "-n", "rbpnet_env",
                 "python", "-m", "rbpnet", "predict",
                 "-m", str(model_path),
                 str(fasta_path.resolve()),
                 "-o", str(output_path)
             ]
-            cwd = None  # Move this BEFORE the print statement
             print(f"🔍 DEBUG: RBPNet command: {' '.join(cmd)}")
             print(f"🔍 DEBUG: RBPNet working directory: {cwd}")
-
+            cwd = None
         else:
             return f"Unknown method: {method}", []
-
         print(f"🔍 DEBUG: About to run subprocess...")
         print(f"🔍 DEBUG: Command: {cmd}")
         print(f"🔍 DEBUG: Working directory: {cwd}")
+
         try:
             # Copy environment and remove LD_PRELOAD to avoid preloading errors
             env = os.environ.copy()
@@ -726,7 +686,7 @@ def register_callbacks(app):
 
 
     @app.callback(
-        Output('clicked-row-output', 'children'),  # You can replace this with anything
+        Output('clicked-row-output', 'children'),  
         Input('result-table', 'active_cell'),
         State('result-table', 'data'),
     )
@@ -1132,7 +1092,7 @@ def register_callbacks(app):
                     html.Img(src=image_url, style={"width": "100%", "maxWidth": "700px"})
                 ], id=plot_div_id, style={'position': 'relative', 'border': '1px solid #ccc', 'padding': '10px', 'marginBottom': '10px'}))
 
-            return html.Div([header] + output_elements)  # ← Add this return
+            return html.Div([header] + output_elements)  
 
 
 
@@ -1597,13 +1557,8 @@ def register_callbacks(app):
             output_dir = STRUCTURE_OUTPUT_DIR / seq_id
             output_dir.mkdir(exist_ok=True, parents=True)
 
-            # Use dynamic conda path
-            conda_exe = get_conda_executable()
-            print(f"🔍 DEBUG: Final conda executable for Boltz: {conda_exe}")
-            
             cmd = [
-                conda_exe, "run", "-n", "boltz_env_TEST",  # Also check if it should be "boltz_env" not "boltz"
-                "boltz",
+                "conda", "run", "-n", "boltz", "boltz",
                 "predict",
                 str(fasta_path),
                 "--model", "boltz2",
@@ -1647,7 +1602,7 @@ def register_callbacks(app):
 
     @app.callback(
         Output('structure-status-div', 'children'),
-        Output('sequence-table', 'data', allow_duplicate=True),  # <-- Add this line
+        Output('sequence-table', 'data', allow_duplicate=True), 
         Input('structure-button', 'n_clicks'),
         State('sequence-table', 'selected_rows'),
         State('sequence-table', 'data'),

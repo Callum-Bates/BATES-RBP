@@ -1,4 +1,4 @@
-Metadata-Version: 2.1
+Metadata-Version: 2.4
 Name: bates-rbp
 Version: 0.1.0
 Summary: An interactive tool for RNA-binding protein (RBP) binding site prediction
@@ -10,3 +10,6 @@ Requires-Dist: numpy
 Requires-Dist: requests
 Requires-Dist: biopython
 Requires-Dist: gdown
+Dynamic: author
+Dynamic: requires-dist
+Dynamic: summary

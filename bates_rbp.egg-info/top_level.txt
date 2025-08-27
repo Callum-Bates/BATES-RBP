@@ -1,2 +1,1 @@
-BATES-RBP
 bates_rbp

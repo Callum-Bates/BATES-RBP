@@ -104,10 +104,10 @@ VIRAL_LABELS = {
 MODELS_DIR = Path(__file__).parent / "models"
 
 # RBPNet models
-RBPNet_MODEL_DIR = MODELS_DIR / "RBPNet"
+RBPNet_MODEL_DIR = MODELS_DIR / "rbpnet"
 
 # DeepCLIP models
-DEEPCLIP_MODEL_DIR = MODELS_DIR / "DeepCLIP"
+DEEPCLIP_MODEL_DIR = MODELS_DIR / "deepclip"
 
 
 

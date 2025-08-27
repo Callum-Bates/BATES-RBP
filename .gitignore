@@ -1,29 +1,70 @@
-# Ignore only large model/data files
+cat > .gitignore << 'EOF'
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Conda environments
+environments/*/
+.conda/
+
+# Models and large files
+models/
 *.h5
-*.hdf5
-*.pt
-*.pth
-*.ckpt
-*.onnx
-*.pb
-*.npy
-*.npz
 *.pkl
-*.joblib
-*.tar
-*.tar.gz
+*.model
 *.zip
 
-# Ignore Python cache
-__pycache__/
-*.pyc
-*.pyo
+# Output directories
+results/
+outputs/
+structures/
+temp/
+tmp/
 
-# Ignore OS/editor files
-.DS_Store
-Thumbs.db
+# Logs
+*.log
+logs/
+
+# IDE
 .vscode/
 .idea/
+*.swp
+*.swo
 
-dbs/
-*.db
+# OS
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Test files
+test_data/
+*.fasta
+*.fa
+
+
+# Structure prediction outputs
+bates_rbp/structure_output/
+*/boltz_results*/
+*/lightning_logs/
+*.cif
+hparams.yaml
