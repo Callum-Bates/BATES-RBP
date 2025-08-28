@@ -20,7 +20,7 @@ fi
 
 # Create main environment
 echo "Creating main conda environment..."
-conda env create -f environments/bates_rbp.yml -y
+conda env create -f environments/bates_rbp.yml  
 
 # Activate environment
 echo "Activating environment..."
@@ -87,7 +87,7 @@ fi
 # Install RBPNet environment and package
 echo "Setting up RBPNet environment..."
 conda activate bates_rbp_TEST
-conda env create -f environments/rbpnet_env.yml -y
+conda env create -f environments/rbpnet_env.yml  
 conda activate rbpnet_env_TEST
 pip install git+https://github.com/mhorlacher/rbpnet.git
 echo "SUCCESS: RBPNet installed successfully"
@@ -95,7 +95,7 @@ echo "SUCCESS: RBPNet installed successfully"
 # Install Boltz environment and package
 echo "Setting up Boltz environment..."
 conda activate bates_rbp_TEST
-conda env create -f environments/boltz_env.yml -y
+conda env create -f environments/boltz_env.yml  
 conda activate boltz_env_TEST
 
 # Check if CUDA is available for Boltz
