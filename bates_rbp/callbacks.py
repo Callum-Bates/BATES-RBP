@@ -73,27 +73,20 @@ from setuptools import setup
 
 
 
-def get_conda_executable():
-    """Get the conda executable path with debugging"""
-    print("🔍 DEBUG: Finding conda executable...")
-    
+#Get the conda executable path with debugging
+
+def get_conda_executable():    
     # Method 1: Use CONDA_EXE environment variable
     conda_exe = os.environ.get('CONDA_EXE')
-    print(f"🔍 DEBUG: CONDA_EXE = {conda_exe}")
     
     if conda_exe and Path(conda_exe).exists():
-        print(f"✅ DEBUG: Using CONDA_EXE: {conda_exe}")
         return conda_exe
     
     # Method 2: Try to find conda relative to current Python
     python_path = Path(sys.executable)
     conda_path = python_path.parent.parent / 'bin' / 'conda'
-    print(f"🔍 DEBUG: Current Python: {python_path}")
-    print(f"🔍 DEBUG: Calculated conda path: {conda_path}")
-    print(f"🔍 DEBUG: Conda path exists: {conda_path.exists()}")
-    
+
     if conda_path.exists():
-        print(f"✅ DEBUG: Using calculated path: {conda_path}")
         return str(conda_path)
     
     # Method 3: Check common conda locations
@@ -103,15 +96,10 @@ def get_conda_executable():
         Path('/opt/conda/bin/conda'),
     ]
     
-    print(f"🔍 DEBUG: Checking common paths...")
     for path in possible_paths:
-        print(f"🔍 DEBUG: Checking {path} - exists: {path.exists()}")
         if path.exists():
-            print(f"✅ DEBUG: Using common path: {path}")
             return str(path)
     
-    # Fallback
-    print("⚠️ DEBUG: Using fallback 'conda'")
     return 'conda'
 from .constants import *
 from .helpers import *   
