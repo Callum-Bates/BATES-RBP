@@ -1,7 +1,6 @@
 import dash
 from dash import Input, Output, State, MATCH, ALL, ctx
 from dash.exceptions import PreventUpdate
-#from .helpers import *       # your helper functions
 from dash import dash_table
 import plotly.express as px
 import plotly.graph_objects as go
@@ -10,7 +9,6 @@ from pathlib import Path
 from pathlib import Path
 import uuid
 import glob
-    # your helper functions
 import shutil
 import os
 import shutil
@@ -121,8 +119,13 @@ from .helpers import *
 def register_callbacks(app):
     """Register all Dash callbacks"""
 
+    BASE_DIR = Path(__file__).parent  # folder of the current file
 
+    # Folder for user-uploaded FASTA files
+    FASTA_UPLOAD_DIR = BASE_DIR / "user_uploads"
+    FASTA_UPLOAD_DIR.mkdir(parents=True, exist_ok=True)  # ensure it exists
 
+# Genome selection callback - updates dropdown options based on human/viral selection
     @app.callback(
         Output('viral-genome-dropdown', 'options'),
         Output('viral-genome-dropdown', 'value'),  # reset value
@@ -134,6 +137,10 @@ def register_callbacks(app):
         elif selection == 'Viral':
             return viral_genomes, None
         return [], None  # default empty
+
+
+
+    # Tab visibility controller - shows/hides tabs based on active selection
 
     @app.callback(
         Output('binding-tab', 'style'),
@@ -149,24 +156,7 @@ def register_callbacks(app):
         )
 
 
-
-
-
-
-
-
-
-
-
-
-    BASE_DIR = Path(__file__).parent  # folder of the current file
-    FASTA_UPLOAD_DIR = BASE_DIR / "user_uploads"  # folder for user-uploaded FASTA
-
-
-
-
-    ##use this for 2 
-
+# Manual sequence addition - validates RNA sequence and adds to table - will change to make T acceptable
 
     @app.callback([
         Output('sequence-table', 'data', allow_duplicate=True),
@@ -184,7 +174,6 @@ def register_callbacks(app):
         if not fasta_id or not fasta_sequence:
             return dash.no_update, False, ""
 
-        # Normalize and sanitize inputs
         fasta_id = fasta_id.strip().lstrip('>').replace(' ', '_')
         fasta_sequence = fasta_sequence.strip()
 
@@ -197,7 +186,6 @@ def register_callbacks(app):
                 if row.get('SequenceID') == fasta_id:
                     return dash.no_update, True, ""  # duplicate, but no error message in fasta-status2
 
-        # Save FASTA
         FASTA_BOLTZ_DIR.mkdir(exist_ok=True, parents=True)
 
 
@@ -208,7 +196,6 @@ def register_callbacks(app):
             f.write(f">{fasta_id}|rna\n{fasta_sequence}\n")
 
 
-        # Add new row
         new_row = {col['id']: '' for col in columns}
         new_row['SequenceID'] = fasta_id
         new_row['Sequence'] = fasta_sequence
@@ -216,17 +203,11 @@ def register_callbacks(app):
 
         updated_data = existing_data + [new_row] if existing_data else [new_row]
 
-        return updated_data, False, ""  # success, clear any message
+        return updated_data, False, ""  
 
 
 
-
-
-
-
-
-
-
+# Method selection handler - clears previous uploads when method changes
     @app.callback(
         Output('selected-method-store', 'data', allow_duplicate=True),
         Output('fasta-status', 'children', allow_duplicate=True),
@@ -239,26 +220,12 @@ def register_callbacks(app):
         # Clear uploaded FASTA files
         for file in FASTA_UPLOAD_DIR.iterdir():
             if file.is_file():
-                file.unlink()  # safer Path method instead of os.remove
+                file.unlink()  
 
-        return selected_method, "", ""  # Clear the message
-
-
+        return selected_method, "", "" 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+# File upload handler - validates and saves uploaded FASTA files
     @app.callback(
         Output('upload-status', 'children'),
         Input('upload-fasta', 'contents'),
@@ -280,25 +247,14 @@ def register_callbacks(app):
         ])
 
 
-
-
-
-
-    # Base directory for the app
-    BASE_DIR = Path(__file__).parent
-
-    # Folder for user-uploaded FASTA files
-    FASTA_UPLOAD_DIR = BASE_DIR / "user_uploads"
-    FASTA_UPLOAD_DIR.mkdir(parents=True, exist_ok=True)  # ensure it exists
-
-    # Messages
+    # Messages - use these for sequence entry later
     s1 = "FASTA saved:-)"
     e1 = "Error: FASTA format requires the first line to start with '>'"
     e2 = "Error: Sequence contains invalid characters. Only A, U, G, C are allowed."
     e3 = "Please select method first"
     fasta_outcomes = [e1, e2, e3]
 
-
+#Saves user FASTA to FASTA_UPLOAD_DIR
     @app.callback(
         Output('fasta-status', 'children', allow_duplicate=True),
         Input('submit-fasta', 'n_clicks'),
@@ -322,9 +278,9 @@ def register_callbacks(app):
 
         for line in lines:
             if line.startswith('>'):
-                processed_lines.append(line.strip())  # header
+                processed_lines.append(line.strip())  
                 continue
-            seq_line = line.strip().upper().replace("T", "U")  # T → U
+            seq_line = line.strip().upper().replace("T", "U")  # T -> U
             if any(char not in valid_chars for char in seq_line):
                 return e2
             processed_lines.append(seq_line)
@@ -332,13 +288,12 @@ def register_callbacks(app):
         # Rebuild normalized FASTA
         fasta_text_normalized = "\n".join(processed_lines)
 
-        # Save file using Path
         filename = FASTA_UPLOAD_DIR / f"user_input_{uuid.uuid4().hex}.fasta"
         filename.write_text(fasta_text_normalized)
 
         return s1
 
-
+# Clears FASTA Input when new text is added or file saved
     @app.callback(
         Output('fasta-status', 'children', allow_duplicate=True),
         Input('fasta-input', 'value'),
@@ -349,11 +304,7 @@ def register_callbacks(app):
         return ""
 
 
-
-
-
-
-
+# add models for user to select, dependent on ML method chosen
     @app.callback(
         [Output('model-dropdown', 'options'),
         Output('model-dropdown', 'value')],
@@ -377,13 +328,11 @@ def register_callbacks(app):
             return options, current_value
 
 
-
-
-
+# Store path of selected model so can be retreived when job is run
     @app.callback(
         Output('selected-model-store', 'data'),
         Input('model-dropdown', 'value'),
-        State('selected-method-store', 'data'),  # avoid circular triggering
+        State('selected-method-store', 'data'), 
         prevent_initial_call=True
     )
     def store_selected_model_path(selected_model, selected_method):
@@ -398,12 +347,7 @@ def register_callbacks(app):
         return "Please select model(s)"
 
 
-
-
-
-
-
-
+#helper function for running job - contains 
     def run_method(method, model_path, selected_model, output_path, job_id):
         BASE_DIR = Path(__file__).parent
         UPLOAD_DIR = BASE_DIR / "user_uploads"
@@ -435,13 +379,11 @@ def register_callbacks(app):
                 f.write(f">{seq_id}|rna\n{seq}\n")
 
         if method.lower() == "deepclip":
-            print(f"🔍 DEBUG: Running DeepCLIP prediction")
             
-            # Use dynamic conda path to find the deepclip_env
             conda_exe = get_conda_executable()
             
             try:
-                # Get the environment path dynamically
+                # Get the environment path dynamically - had issues with wrong env path
                 env_result = subprocess.run([
                     conda_exe, "info", "--envs"
                 ], capture_output=True, text=True)
@@ -463,10 +405,8 @@ def register_callbacks(app):
                 if not Path(python_exe).exists():
                     return f"DeepCLIP Python not found at {python_exe}", []
                     
-                print(f"🔍 DEBUG: Using DeepCLIP Python: {python_exe}")
                 
             except Exception as e:
-                print(f"❌ DEBUG: Error finding DeepCLIP environment: {e}")
                 return f"Error finding DeepCLIP environment: {e}", []
 
             # Check if DeepCLIP directory exists
@@ -483,16 +423,9 @@ def register_callbacks(app):
                 "--predict_output_file", str(output_path)
             ]
             
-            print(f"🔍 DEBUG: DeepCLIP command: {' '.join(cmd)}")
-            print(f"🔍 DEBUG: DeepCLIP working directory: {deepclip_dir}")
-            
-            cwd = str(deepclip_dir)
-            print(f"🔍 DEBUG: DeepCLIP command: {' '.join(cmd)}")
-            print(f"🔍 DEBUG: DeepCLIP working directory: {cwd}")
 
         elif method.lower() == "rbpnet":
             conda_exe = get_conda_executable()
-            print(f"🔍 DEBUG: Final conda executable for RBPNet: {conda_exe}")
 
             cmd = [
                 conda_exe, "run", "-n", "rbpnet_env",
@@ -501,16 +434,11 @@ def register_callbacks(app):
                 str(fasta_path.resolve()),
                 "-o", str(output_path)
             ]
-            cwd = None  # Move this BEFORE the print statement
-            print(f"🔍 DEBUG: RBPNet command: {' '.join(cmd)}")
-            print(f"🔍 DEBUG: RBPNet working directory: {cwd}")
+            cwd = None  
 
         else:
             return f"Unknown method: {method}", []
 
-        print(f"🔍 DEBUG: About to run subprocess...")
-        print(f"🔍 DEBUG: Command: {cmd}")
-        print(f"🔍 DEBUG: Working directory: {cwd}")
         try:
             # Copy environment and remove LD_PRELOAD to avoid preloading errors
             env = os.environ.copy()
@@ -535,11 +463,9 @@ def register_callbacks(app):
 
         except Exception as e:
             return f"Error running {method.capitalize()}: {str(e)}", []
-        BASE_DIR = Path(__file__).parent
-        RESULTS_DIR = BASE_DIR / "results"
-        RESULTS_DIR.mkdir(exist_ok=True, parents=True)
 
 
+# Runs the prediction - takes information from run_method.  Builds job_list data
     @app.callback(
         Output('output-div', 'children'),
         Output('job-counter', 'data'),
@@ -619,7 +545,7 @@ def register_callbacks(app):
             return f"Job {job_counter + 1}: {result_message}", job_counter, job_list, []
 
 
-
+# Builds sequence table - adds previously input sequences with ID, structure generation status
     @app.callback(
         Output('result-table', 'data'),
         Output('sequence-table', 'data', allow_duplicate=True),
@@ -668,7 +594,7 @@ def register_callbacks(app):
                     'Protein': model,
                     'SequenceID': sequence_id,
                     "Sequence": sequence,
-                    "Score": score  # <-- New score column
+                    "Score": score 
                 })
 
                 if not any(d['SequenceID'] == sequence_id and d['Sequence'] == sequence for d in sequence_data):
@@ -682,10 +608,7 @@ def register_callbacks(app):
         return table_data, sequence_data
 
 
-
-
-
-
+# Dwnload results table displayed in main tab
     @app.callback(
         Output("download-results-download", "data"),
         Input("download-results", "n_clicks"),
@@ -699,7 +622,6 @@ def register_callbacks(app):
 
         df = pd.DataFrame(result_data)
 
-        # Clean and set filename
         filename = filename_input.strip() if filename_input else "results"
         if not filename.lower().endswith(".csv"):
             filename += ".csv"
@@ -708,25 +630,9 @@ def register_callbacks(app):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# Row selection handler - displays details of clicked table row
     @app.callback(
-        Output('clicked-row-output', 'children'),  # You can replace this with anything
+        Output('clicked-row-output', 'children'),  
         Input('result-table', 'active_cell'),
         State('result-table', 'data'),
     )
@@ -743,9 +649,7 @@ def register_callbacks(app):
         return "Click on a row to see details."
 
 
-
-
-
+# ZIP file download handler - packages plot files for download
     @app.callback(
         Output({'type': 'zip-download', 'job_id': MATCH}, 'data'),
         Input({'type': 'zip-button', 'job_id': MATCH}, 'n_clicks'),
@@ -764,22 +668,16 @@ def register_callbacks(app):
         plots_dir = os.path.join("plots", f"job_{job_id}")
         zip_path = os.path.join(plots_dir, "plots.zip")
 
-        # Recreate the zip file every time (optional)
         with zipfile.ZipFile(zip_path, 'w') as zipf:
             for file in os.listdir(plots_dir):
                 if file.endswith(".png"):
                     file_path = os.path.join(plots_dir, file)
                     zipf.write(file_path, arcname=file)
 
-        # Return file for download
         return dcc.send_file(zip_path)
 
 
-
-
-
-
-
+# Results file download handler - serves prediction output files
     @app.callback(
         Output({'type': 'download-component', 'job_id': MATCH}, 'data'),
         Input({'type': 'results-button', 'job_id': MATCH}, 'n_clicks'),
@@ -788,8 +686,7 @@ def register_callbacks(app):
     )
     def download_result(n_clicks, job_list):
         trigger = dash.callback_context.triggered[0]['prop_id']
-        #job_id = eval(trigger.split('.')[0])['index']  # safe since it's controlled
-        job_id = eval(trigger.split('.')[0])['job_id']  # corrected
+        job_id = eval(trigger.split('.')[0])['job_id']  
 
         # Find matching job
         job = next((j for j in job_list if j['job_id'] == job_id), None)
@@ -803,6 +700,8 @@ def register_callbacks(app):
         return dict(content=content, filename=filename)
 
 
+# Heatmap visualization generator - creates binding score heatmaps from prediction results
+    #as Dash figure for user interaction
     @app.callback(
         Output('heatmap-panel', 'children'),
         Input('plot-tabs', 'value'),
@@ -894,7 +793,7 @@ def register_callbacks(app):
                     row_hover.append("No data")
             hover_text.append(row_hover)
 
-        # === Plot with Plotly ===
+        # === Plot Plotly ==
         weights_array = np.array(weights_matrix, dtype=float)
         fig = go.Figure(data=go.Heatmap(
             z=weights_array,
@@ -931,7 +830,8 @@ def register_callbacks(app):
 
 
 
-
+# Sequence logo generator - creates weighted sequence logos from binding predictions
+# Same logic as heatmap but decided to create separate functions
     @app.callback(
         Output('logo-panel', 'children'),
         Input('plot-tabs', 'value'),
@@ -1035,7 +935,6 @@ def register_callbacks(app):
         for label in ax.get_xticklabels() + ax.get_yticklabels():
             label.set_fontweight("bold")
 
-        # No tight_layout() – instead use bbox_inches='tight'
         buf = io.BytesIO()
         plt.savefig(buf, format="png", dpi=150, bbox_inches='tight')
         plt.close(fig)
@@ -1048,188 +947,7 @@ def register_callbacks(app):
 
 
 
-
-
-
-
-    @app.callback(
-        Output({'type': 'output-div', 'job_id': MATCH}, 'children'),
-        Input({'type': 'view-plot-button', 'job_id': MATCH}, 'n_clicks'),
-        State({'type': 'sequence-checklist', 'job_id': MATCH}, 'value'),
-        State('completed-jobs', 'data'),
-        prevent_initial_call=True
-    )
-    def plot_selected_sequences(n_clicks, selected_seqs, job_list):
-
-        triggered = ctx.triggered_id
-        job_id = triggered['job_id']
-
-        if not selected_seqs:
-            return html.Div("Please select at least one sequence before plotting.")
-
-        job = next((j for j in job_list if j['job_id'] == job_id), None)
-        if not job:
-            return html.Div("Job data not found.")
-
-        method = job.get('method', 'Unknown').strip().lower()
-        model = job.get('model', 'Unknown')
-        output_file = job['output_path']
-        plots_dir = os.path.join("plots", f"job_{job_id}")
-        os.makedirs(plots_dir, exist_ok=True)
-
-        header = html.Div([
-            html.P(f"Method: {method}"),
-            html.P(f"Model: {model}")
-        ], style={"fontWeight": "bold", "marginBottom": "10px"})
-
-        output_elements = []
-
-        if method == "deepclip":
-            try:
-                with open(output_file, "r") as f:
-                    data = json.load(f)
-            except Exception as e:
-                return html.Div(f"Error loading DeepCLIP output: {e}")
-
-            for selected_seq in selected_seqs:
-                pred = next((p for p in data["predictions"] if p.get("id") == selected_seq), None)
-                if not pred:
-                    output_elements.append(html.Div(f"No match found for sequence: {selected_seq}"))
-                    continue
-
-                sequence = pred["sequence"]
-                weights = pred["weights"]
-                score = pred["score"]
-                filename = f"{selected_seq}.png"
-                filepath = os.path.join(plots_dir, filename)
-
-                plt.figure(figsize=(6, 3))
-                plt.plot(range(len(weights)), weights, marker='o', linestyle='-', color='mediumseagreen')
-                plt.xticks(range(len(sequence)), list(sequence))
-                plt.title(f"{selected_seq} (Score: {score:.3f}) - Method: {method}")
-                plt.xlabel("Position")
-                plt.ylabel("Weight")
-                plt.grid(True, linestyle='--', alpha=0.5)
-                plt.tight_layout()
-                plt.savefig(filepath)
-                plt.close()
-                image_url = f"/plots/job_{job_id}/{filename}"
-
-                plot_div_id = {'type': 'plot-container', 'job_id': job_id, 'seq_id': selected_seq}
-
-                output_elements.append(html.Div([
-                    html.Div("×", id={'type': 'close-button', 'job_id': job_id, 'seq_id': selected_seq},
-                            style={
-                                'position': 'absolute',
-                                'top': '5px',
-                                'right': '10px',
-                                'cursor': 'pointer',
-                                'fontWeight': 'bold',
-                                'fontSize': '16px',
-                                'color': '#900',
-                            }),
-                    html.P(f"Plot for {selected_seq}"),
-                    html.Img(src=image_url, style={"width": "100%", "maxWidth": "700px"})
-                ], id=plot_div_id, style={'position': 'relative', 'border': '1px solid #ccc', 'padding': '10px', 'marginBottom': '10px'}))
-
-            return html.Div([header] + output_elements)  # ← Add this return
-
-
-
-
-        # --- RBPNet ---
-        if method.lower() == "rbpnet":
-            print(job)
-            print(output_file)
-            if not output_file.endswith(".txt"):
-                return html.Div("Invalid RBPNet output: expected a .txt file.")
-
-            try:
-                with open(output_file, "r") as f:
-                    lines = f.readlines()
-            except Exception as e:
-                return html.Div(f"Error loading RBPNet output: {e}")
-
-            # Parse all entries
-            entries = []
-            i = 0
-            while i < len(lines):
-                if lines[i].startswith('>'):
-                    title = lines[i][1:].split()[0]
-                    sequence = lines[i + 1].strip()
-                    ig_total, ig_control, ig_target = [], [], []
-                    ig_total = list(map(float, lines[i + 2].split()))
-                    ig_control = list(map(float, lines[i + 3].split()))
-                    ig_target = list(map(float, lines[i + 4].split()))
-
-                    entries.append((title, sequence, ig_total, ig_control, ig_target))
-
-                    i += 5 
-                else:
-                    i += 1
-
-            if not all(len(arr) == len(sequence) for arr in [ig_total, ig_control, ig_target]):
-                return html.Div(f"Mismatch between sequence and attribution lengths for {title}")
-
-
-            # Plot only selected sequences
-            for selected_seq in selected_seqs:
-                entry = next((e for e in entries if e[0] == selected_seq), None)
-                if not entry:
-                    output_elements.append(html.Div(f"No match found for sequence: {selected_seq}"))
-                    continue
-
-                title, sequence, ig_total, ig_control, ig_target = entry
-                filename = f"{selected_seq}.png"
-                filepath = os.path.join(plots_dir, filename)
-
-                positions = list(range(1, len(sequence) + 1))
-                plt.figure(figsize=(8, 3))
-                plt.plot(positions, ig_total, label='Total IG', color='blue', linewidth=2)
-                plt.plot(positions, ig_control, label='Control IG', color='orange', linestyle='--')
-                plt.plot(positions, ig_target, label='Target IG', color='green', linestyle='--')
-                plt.xticks(positions, list(sequence), fontsize=9)
-                plt.xlabel('Position (nt)')
-                plt.ylabel('IG Attribution Score')
-                plt.title(f'RBPNet IG Attribution: {title}')
-                plt.legend()
-                plt.grid(True, linestyle='--', alpha=0.5)
-                plt.tight_layout()
-                plt.savefig(filepath)
-                plt.close()
-                image_url = f"/plots/job_{job_id}/{filename}"
-
-                image_url = f"/plots/job_{job_id}/{filename}"
-                plot_div_id = {'type': 'plot-container', 'job_id': job_id, 'seq_id': selected_seq}
-
-                output_elements.append(html.Div([
-                    html.Div("×", id={'type': 'close-button', 'job_id': job_id, 'seq_id': selected_seq},
-                            style={
-                                'position': 'absolute',
-                                'top': '5px',
-                                'right': '10px',
-                                'cursor': 'pointer',
-                                'fontWeight': 'bold',
-                                'fontSize': '16px',
-                                'color': '#900',
-                            }),
-                    html.P(f"Plot for {selected_seq}"),
-                    html.Img(src=image_url, style={"width": "100%", "maxWidth": "700px"})
-                ], id=plot_div_id, style={'position': 'relative', 'border': '1px solid #ccc', 'padding': '10px', 'marginBottom': '10px'}))
-
-        else:
-            return html.Div(f"Plotting not supported for method: {method}")
-
-        return html.Div([header] + output_elements)
-
-
-
-
-
-
-
-
-
+# Option to close plots - returns to previous screen
     @app.callback(
         Output({'type': 'plot-container', 'job_id': MATCH, 'seq_id': ALL}, 'style'),
         Input({'type': 'close-button', 'job_id': MATCH, 'seq_id': ALL}, 'n_clicks'),
@@ -1249,7 +967,7 @@ def register_callbacks(app):
 
 
 
-
+# Plots are displayed based on which line of results table is clicked
     @app.callback(
         Output('debug-selected-row', 'children'),
         Input('selected-row-store', 'data')
@@ -1261,6 +979,7 @@ def register_callbacks(app):
 
 
 
+# Stores the data from the selected row
     @app.callback(
         Output('selected-row-store', 'data'),
         Input('result-table', 'selected_rows'),
@@ -1280,14 +999,7 @@ def register_callbacks(app):
         }
 
 
-
-
-
-
-
-
-
-
+# Generates plot with plotly for user interaction.  DeepCLIP and RBPNet are parsed differently
     @app.callback(
         Output('score-plot-panel', 'children'),
         Input('selected-row-store', 'data'),
@@ -1315,9 +1027,7 @@ def register_callbacks(app):
         filepath = os.path.join(plots_dir, filename)
         image_url = f"/plots/job_{job_id}/{filename}"
 
-        # ------------------
-        # DeepCLIP
-        # ------------------
+        # === DeepCLIP ===
         if method == "deepclip":
             try:
                 with open(output_file, "r") as f:
@@ -1376,9 +1086,7 @@ def register_callbacks(app):
 
     
 
-        # ------------------
-        # RBPNet
-        # ------------------
+        # ===RBPNet====
         elif method == "rbpnet":
             try:
                 with open(output_file, "r") as f:
@@ -1461,9 +1169,7 @@ def register_callbacks(app):
                 dcc.Download(id={'type': 'score-download', 'index': seq_id}),
                 dcc.Graph(figure=fig)
             ])
-        # ------------------
-        # Unsupported
-        # ------------------
+
         else:
             return html.Div(f"Plotting not yet supported for method '{method}'.")
 
@@ -1471,7 +1177,7 @@ def register_callbacks(app):
 
 
 
-
+# Download score results 
     @app.callback(
         Output({'type': 'score-download', 'index': MATCH}, 'data'),
         Input({'type': 'download-score-btn', 'index': MATCH}, 'n_clicks'),
@@ -1493,7 +1199,7 @@ def register_callbacks(app):
         method = job.get('method', 'unknown').lower()
         output_file = job.get('output_path')
 
-        # ---------------- DeepCLIP ----------------
+        # === DeepCLIP ===
         if method == "deepclip":
             try:
                 with open(output_file, "r") as f:
@@ -1511,7 +1217,7 @@ def register_callbacks(app):
                 'Score': pred['weights']
             })
 
-        # ---------------- RBPNet ----------------
+        # === RBPNet ===
         elif method == "rbpnet":
             try:
                 with open(output_file, "r") as f:
@@ -1546,34 +1252,12 @@ def register_callbacks(app):
                 'IG_Target': ig_target
             })
 
-        # -------------- Convert and Return --------------
         csv_string = df.to_csv(index=False)
         return dict(content=csv_string, filename=f"{method}_{seq_id}_scores.csv")
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# Helper function fpr boltz-2 - might add user option between 1 and 2     
     def run_boltz_structure(selected_seq_ids):
         """
         Run Boltz structure prediction for a list of sequence IDs.
@@ -1597,7 +1281,7 @@ def register_callbacks(app):
             output_dir = STRUCTURE_OUTPUT_DIR / seq_id
             output_dir.mkdir(exist_ok=True, parents=True)
 
-            # Use dynamic conda path
+            # Use dynamic conda path - previous issue
             conda_exe = get_conda_executable()
             print(f"🔍 DEBUG: Final conda executable for Boltz: {conda_exe}")
             
@@ -1641,10 +1325,7 @@ def register_callbacks(app):
 
 
 
-
-
-
-
+# Links user structure button to boltz helpler function.  User selects row in sequence table with corresponding RNA sequence
     @app.callback(
         Output('structure-status-div', 'children'),
         Output('sequence-table', 'data', allow_duplicate=True),  # <-- Add this line
@@ -1670,7 +1351,7 @@ def register_callbacks(app):
             else:
                 status_icon = "❌"
 
-            # Update the table data
+            # Update the table data  -  changes emoji if generated
             updated_data = data_first.copy()
             updated_data[selected_index]['boltz-status'] = status_icon
 
@@ -1680,6 +1361,7 @@ def register_callbacks(app):
             return f"Error generating structure for {seq_id}: {str(e)}", data_first
 
 
+# User can select RNA from dropdown menu of sequences for which structure has been generated. DIsplayed in viewer sub tab
     @app.callback(
         Output('structure-viewer-container', 'children'),
         Input('rna-selection', 'value'),
@@ -1695,7 +1377,6 @@ def register_callbacks(app):
 
         if not isinstance(rna_selection, list):
             rna_selection = [rna_selection]
-
 
         if not selected_reps:
             selected_reps = ['cartoon']
@@ -1728,7 +1409,7 @@ def register_callbacks(app):
                 'uploaded': False,
                 'resetView': True
             })
-
+# setting default parameters
         return html.Div([
             html.Div("Structure Viewer", style={'fontFamily': 'monospace', 'marginBottom': '6px'}),
             dashbio.NglMoleculeViewer(
@@ -1748,12 +1429,7 @@ def register_callbacks(app):
 
 
 
-
-
-
-
-
-
+# Function that searches viral genomes based on sequence selected from table. 
     #this one works with jobIDs
     @app.callback(
         Output('search-results-store', 'data'),
@@ -1912,16 +1588,7 @@ def register_callbacks(app):
                         feature_ids = ','.join(set(f.id for f in features if f.id))
                         genes = ','.join(all_genes)
 
-
-
-
-
-
-
-
-
-
-
+            # Add to matches - each match is a feature 
                     matches.append({
                         "Match #": len(matches) + 1,
                         "Start": start,
@@ -1933,7 +1600,7 @@ def register_callbacks(app):
                         "Gene": genes,
                     })
 
-
+                # Add data to BED file
                     #BED row (0-based start, 1-based end) 
                     bed_rows.append([
                         records[0].id, 
@@ -1988,7 +1655,7 @@ def register_callbacks(app):
                     "no_match": False
                 }
 
-            # ✅ Increment job_id only for successful search
+            # Increment job_id only for successful search - these are independent of job ID for model predictions
             job_id = job_id + 1 if job_id is not None else 1
             new_result["job_id"] = job_id
             updated_results = existing_results + [new_result]
@@ -2123,25 +1790,7 @@ def register_callbacks(app):
 
 
 
-
-
-    @app.callback(
-        Output({'type': 'download-data', 'index': MATCH}, 'data'),
-        Input({'type': 'download-btn', 'index': MATCH}, 'n_clicks'),
-        State({'type': 'result-table', 'index': MATCH}, 'data'),
-        prevent_initial_call=True
-    )
-    def download_table(n_clicks, table_data):
-        if n_clicks:
-            df = pd.DataFrame(table_data)
-            return dcc.send_data_frame(df.to_csv, "results.csv", index=False)
-
-
-
-
-
-
-
+# Download BED file
     @app.callback(
         Output({'type': 'download-bed', 'index': MATCH}, 'data'),
         Input({'type': 'download-bed-btn', 'index': MATCH}, 'n_clicks'),
@@ -2167,24 +1816,19 @@ def register_callbacks(app):
 
 
 
+    # Download Results table- figuring out which way is optimal
+    @app.callback(
+        Output({'type': 'download-data', 'index': MATCH}, 'data'),
+        Input({'type': 'download-btn', 'index': MATCH}, 'n_clicks'),
+        State({'type': 'result-table', 'index': MATCH}, 'data'),
+        prevent_initial_call=True
+    )
+    def download_table(n_clicks, table_data):
+        if n_clicks:
+            df = pd.DataFrame(table_data)
+            return dcc.send_data_frame(df.to_csv, "results.csv", index=False)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
 
     @app.callback(
         Output("download-csv", "data"),
@@ -2217,7 +1861,7 @@ def register_callbacks(app):
 
 
 
-
+# Search button state controller - enables button only when sequence and genome are selected
     @app.callback(
         Output('search-sequence-button', 'disabled'),
         Input('sequence-table', 'selected_rows'),
@@ -2226,14 +1870,14 @@ def register_callbacks(app):
     )
     def toggle_search_button(selected_rows, selected_genome, table_data):
         if not selected_rows or selected_genome is None:
-            return True  # disable button
+            return True  
 
-        # Optionally ensure the selected row has a sequence (non-empty)
+        #  ensure the selected row has a sequence
         selected_row = table_data[selected_rows[0]]
-        return not bool(selected_row.get('Sequence'))  # True disables button
+        return not bool(selected_row.get('Sequence'))  
 
 
-
+# RNA dropdown updater - populates dropdown with sequences that have structure predictions
     @app.callback(
         Output('rna-selection', 'options'),
         Output('rna-selection', 'value'),
@@ -2266,7 +1910,7 @@ def register_callbacks(app):
 
 
 
-
+# Expand sequence in sequence table from genomic context of match results from motif mapping to viral genome
     @app.callback(
         Output("sequence-table", "data"),
         Input("expand-button", "n_clicks"),
@@ -2309,7 +1953,7 @@ def register_callbacks(app):
 
         end_index = start_index + len(selected_sequence)
 
-        # Expand sequence
+        # Expand
         expanded_start = max(0, start_index - expand_length)
         expanded_end = min(len(plain_context), end_index + expand_length)
         expanded_sequence = plain_context[expanded_start:expanded_end]
@@ -2325,7 +1969,7 @@ def register_callbacks(app):
         new_row = {
             "SequenceID": f"{original_id}_e",
             "Sequence": expanded_sequence,
-            "boltz-status": "❌",  # red X
+            "boltz-status": "❌",  
             "sequence-job-id": "NA"
         }
         print(new_row)
