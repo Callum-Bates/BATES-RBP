@@ -1,3 +1,0 @@
-Requirement already satisfied: plotly in /home4/2185048b/anaconda3/envs/bates_rbp_TEST/lib/python3.11/site-packages (6.3.0)
-Requirement already satisfied: narwhals>=1.15.1 in /home4/2185048b/anaconda3/envs/bates_rbp_TEST/lib/python3.11/site-packages (from plotly) (2.2.0)
-Requirement already satisfied: packaging in /home4/2185048b/anaconda3/envs/bates_rbp_TEST/lib/python3.11/site-packages (from plotly) (25.0)
