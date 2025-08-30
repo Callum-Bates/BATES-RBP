@@ -1,7 +1,0 @@
-dash
-dash-bio
-pandas
-numpy
-requests
-biopython
-gdown
