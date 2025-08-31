@@ -1,16 +1,24 @@
-name: rbpnet_env_TEST
+name: rbpnet_env
 channels:
   - conda-forge
   - bioconda
   - defaults
 dependencies:
-  - python=3.10  # Changed from 3.9 to 3.10
-  - pytorch
-  - torchvision
-  - numpy
+  - python=3.10
+  - numpy=1.24.3  # Pin to NumPy 1.x
   - scipy
   - pandas
   - biopython
   - scikit-learn
-  - tensorflow>=2.4.1
+  - tensorflow>=2.4.1,<2.16
+  - tensorflow-probability
+  - pysam>=0.18.0
+  - pybigwig>=0.3.16
+  - nbconvert
+  - papermill
+  - pyyaml
   - pip
+  - pip:
+    - gin-config>=0.5.0
+    - gtfparse>=1.2.1
+    - creme>=0.6.1
