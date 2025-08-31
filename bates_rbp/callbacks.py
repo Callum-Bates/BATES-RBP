@@ -342,6 +342,7 @@ def register_callbacks(app):
         FASTA_DIR = BASE_DIR / "fasta_files"
         RESULTS_DIR = BASE_DIR / "results"
 
+        # Ensure directories exist
         cwd = None
 
         RESULTS_DIR.mkdir(exist_ok=True, parents=True)
@@ -349,15 +350,18 @@ def register_callbacks(app):
         FASTA_BOLTZ_DIR = BASE_DIR / "fasta_boltz_files"
         FASTA_BOLTZ_DIR.mkdir(exist_ok=True, parents=True)
 
+        # Get latest uploaded FASTA
         fasta_files = sorted(UPLOAD_DIR.glob("*.fasta"), key=os.path.getmtime, reverse=True)
         if not fasta_files:
             return "No FASTA files found to run prediction.", []
 
         fasta_path = fasta_files[0]
 
+        # Copy FASTA for this job
         fasta_copy_path = FASTA_DIR / f"job_{job_id}.fasta"
         shutil.copy(fasta_path, fasta_copy_path)
 
+        # Write per-sequence FASTAs
         for record in SeqIO.parse(fasta_path, "fasta"):
             seq_id = record.id
             seq = str(record.seq)
@@ -366,16 +370,22 @@ def register_callbacks(app):
                 f.write(f">{seq_id}|rna\n{seq}\n")
 
         if method.lower() == "deepclip":
+            
             conda_exe = get_conda_executable()
+            
             cwd = str(BASE_DIR.parent / "deepclip")  # always set cwd here
 
             try:
+                # Get the environment path dynamically - had issues with wrong env path
+                env_result = subprocess.run([
+                    conda_exe, "info", "--envs"
+                ], capture_output=True, text=True)
                 env_result = subprocess.run(
                     [conda_exe, "info", "--envs"],
                     capture_output=True,
                     text=True
                 )
-                
+
                 deepclip_env_path = None
                 for line in env_result.stdout.split('\n'):
                     if 'deepclip_env' in line:
@@ -383,17 +393,22 @@ def register_callbacks(app):
                         if len(parts) >= 2:
                             deepclip_env_path = parts[-1]
                             break
-                
+
                 if not deepclip_env_path:
                     return "DeepCLIP environment (deepclip_env) not found. Please run the installation script.", []
-                
+
                 python_exe = f"{deepclip_env_path}/bin/python"
+                
+                # Check if Python exists
                 if not Path(python_exe).exists():
                     return f"DeepCLIP Python not found at {python_exe}", []
+                    
+                
 
             except Exception as e:
                 return f"Error finding DeepCLIP environment: {e}", []
 
+            # Check if DeepCLIP directory exists
             deepclip_dir = BASE_DIR.parent / "deepclip"
             if not deepclip_dir.exists():
                 return "DeepCLIP repository not found. Please run the installation script.", []
@@ -407,7 +422,7 @@ def register_callbacks(app):
                 "--predict_output_file", str(output_path)
             ]
 
-            
+
             cwd = str(deepclip_dir)
 
         elif method.lower() == "rbpnet":
@@ -420,15 +435,19 @@ def register_callbacks(app):
                 str(fasta_path.resolve()),
                 "-o", str(output_path)
             ]
+            cwd = None  
             cwd = None
 
         else:
             return f"Unknown method: {method}", []
+
         
         try:
+            # Copy environment and remove LD_PRELOAD to avoid preloading errors
             env = os.environ.copy()
             env.pop("LD_PRELOAD", None)
 
+            # Run the subprocess
             result = subprocess.run(
                 cmd,
                 cwd=cwd,
@@ -437,6 +456,7 @@ def register_callbacks(app):
                 env=env
             )
 
+            # Parse sequences from the input FASTA
             parsed_sequences = [{"id": r.id, "seq": str(r.seq)} for r in SeqIO.parse(fasta_path, "fasta")]
 
             if result.returncode == 0:
