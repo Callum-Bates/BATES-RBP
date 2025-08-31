@@ -541,7 +541,7 @@ structure_layout = html.Div([
             html.Div([
                 dcc.Textarea(
                     id='fasta-id',
-                    value='Marny',
+                    value='Eg.',
                     style={
                         'width': '20%',
                         'height': '28px',
