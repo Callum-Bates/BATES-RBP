@@ -1289,7 +1289,7 @@ def register_callbacks(app):
             print(f"🔍 DEBUG: Final conda executable for Boltz: {conda_exe}")
             
             cmd = [
-                conda_exe, "run", "-n", "boltz_env_TEST",  # Also check if it should be "boltz_env" not "boltz"
+                conda_exe, "run", "-n", "boltz_env",  # Also check if it should be "boltz_env" not "boltz"
                 "boltz",
                 "predict",
                 str(fasta_path),
