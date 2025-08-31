@@ -84,9 +84,9 @@ def test_deepclip():
     print("Testing DeepCLIP (Python 2.7)...")
     
     # Check if environment exists
-    env_path = get_env_path("deepclip_env_TEST")
+    env_path = get_env_path("deepclip_env")
     if not env_path:
-        print("ERROR: DeepCLIP environment (deepclip_env_TEST) not found")
+        print("ERROR: DeepCLIP environment (deepclip_env) not found")
         return False
     
     print(f"INFO: Found DeepCLIP environment at: {env_path}")
@@ -128,7 +128,7 @@ except ImportError as e:
 print("All DeepCLIP dependencies are working")
 """
     
-    success, stdout, stderr = run_conda_command("deepclip_env_TEST", 
+    success, stdout, stderr = run_conda_command("deepclip_env", 
                                                ["python", "-c", test_script], 
                                                timeout=60)
     if success:
@@ -136,7 +136,7 @@ print("All DeepCLIP dependencies are working")
         print(f"   Output: {stdout.strip()}")
         
         # Test if we can run DeepCLIP help (might fail due to missing models, but should show usage)
-        success2, stdout2, stderr2 = run_conda_command("deepclip_env_TEST", 
+        success2, stdout2, stderr2 = run_conda_command("deepclip_env", 
                                                        ["python", str(deepclip_path), "--help"],
                                                        timeout=30)
         if success2 or "usage:" in stderr2.lower():
@@ -155,14 +155,14 @@ def test_rbpnet():
     print("Testing RBPNet...")
     
     # Check if environment exists
-    env_path = get_env_path("rbpnet_env_TEST")
+    env_path = get_env_path("rbpnet_env")
     if not env_path:
-        print("ERROR: RBPNet environment (rbpnet_env_TEST) not found")
+        print("ERROR: RBPNet environment (rbpnet_env) not found")
         return False
     
     print(f"INFO: Found RBPNet environment at: {env_path}")
     
-    success, stdout, stderr = run_conda_command("rbpnet_env_TEST", 
+    success, stdout, stderr = run_conda_command("rbpnet_env", 
                                                ["python", "-c", "import rbpnet; print('RBPNet imported successfully')"])
     if success:
         print("SUCCESS: RBPNet is working")
@@ -176,14 +176,14 @@ def test_boltz():
     print("Testing Boltz...")
     
     # Check if environment exists
-    env_path = get_env_path("boltz_env_TEST")
+    env_path = get_env_path("boltz_env")
     if not env_path:
-        print("ERROR: Boltz environment (boltz_env_TEST) not found")
+        print("ERROR: Boltz environment (boltz_env) not found")
         return False
     
     print(f"INFO: Found Boltz environment at: {env_path}")
     
-    success, stdout, stderr = run_conda_command("boltz_env_TEST", 
+    success, stdout, stderr = run_conda_command("boltz_env", 
                                                ["python", "-c", "import boltz; print('Boltz imported successfully')"])
     if success:
         print("SUCCESS: Boltz is working")
