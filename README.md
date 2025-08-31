@@ -1,8 +1,3 @@
-### Note to MSc assessors
-In terms of the content of the tool itself, the code is the same as I submitted for assessment.  I have changed things / added scripts to help with the installation process. 
-I intend to add more features to the program, but when I do this will be clearly marked.  I am still optimising the installation process, but a version of BATES-RBP will be available to you should you wish to install it.
-
-
 # BATES-RBP
 
 ## About
