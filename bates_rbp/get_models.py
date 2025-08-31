@@ -23,7 +23,6 @@ def download_file(url, output_path):
 import os
 def download_rbpnet_models():
     print(os.getcwd())
-
     print("Downloading RBPNet models from Zenodo...")
     
     models_dir = Path("bates_rbp/models")
@@ -44,30 +43,33 @@ def download_rbpnet_models():
         zip_path.unlink()
         
         print("Renaming model files...")
-        model_files = list(rbpnet_dir.rglob("*.model.h5"))
-        print(f"Found {len(model_files)} model files to rename")
         
-        for model_file in model_files:
-            old_name = model_file.name
-            print(f"Processing: {old_name}")
-            
-            if old_name.endswith('.model.h5'):
-                base_name = old_name[:-9]
-                if '_' in base_name:
-                    protein_name = base_name.split('_')[0]
-                else:
-                    protein_name = base_name
-                
-                new_name = f"{protein_name}.h5"
-                destination = rbpnet_dir / new_name
-                
-                if destination.exists():
-                    print(f"  Duplicate found, removing {old_name}")
-                    model_file.unlink()  # delete the new duplicate
-                else:
-                    shutil.move(str(model_file), str(destination))
-                    print(f"  Renamed to: {new_name}")
+        # Use your working logic
+        renamed_count = 0
+        for item in rbpnet_dir.rglob("*"):  # Use rglob to find files in subdirectories too
+            if item.is_file() and item.suffix == ".h5":
+                match = re.match(r"(.+?)_[A-Za-z0-9]+\.model\.h5", item.name)
+                if match:
+                    protein_name = match.group(1)
+                    new_name = f"{protein_name}.h5"
+                    new_path = rbpnet_dir / new_name
+                    
+                    # Handle duplicates
+                    counter = 1
+                    original_new_name = new_name
+                    while new_path.exists():
+                        name_part = original_new_name[:-3]  # Remove '.h5'
+                        new_name = f"{name_part}_{counter}.h5"
+                        new_path = rbpnet_dir / new_name
+                        counter += 1
+                    
+                    item.rename(new_path)
+                    print(f"Renamed {item.name} -> {new_name}")
+                    renamed_count += 1
         
+        print(f"Renamed {renamed_count} model files")
+        
+        # Clean up empty directories
         for item in rbpnet_dir.iterdir():
             if item.is_dir() and not any(item.iterdir()):
                 item.rmdir()
@@ -84,17 +86,6 @@ def download_rbpnet_models():
     return True
 
 
-rbpnet_dir = Path("bates_rbp/models/rbpnet")  # change if your files are in another folder
-
-for item in rbpnet_dir.iterdir():
-    if item.is_file() and item.suffix == ".h5":
-        match = re.match(r"(.+?)_[A-Za-z0-9]+\.model\.h5", item.name)
-        if match:
-            protein_name = match.group(1)
-            new_name = f"{protein_name}.h5"
-            new_path = rbpnet_dir / new_name
-            item.rename(new_path)
-            print(f"Renamed {item.name} -> {new_name}")
 
 
 def download_deepclip_models():
