@@ -29,7 +29,7 @@ scripts/install.sh
 
 **The installation script will:**
 
-Create conda environments for each tool
+Create conda environments for each tool \n
 Install all required dependencies
 Download necessary models
 Set up the web interface
