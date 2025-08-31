@@ -23,10 +23,10 @@ def download_file(url, output_path):
 
 def download_rbpnet_models():
     """Download RBPNet models from Zenodo"""
-    print("📥 Downloading RBPNet models from Zenodo...")
+    print("Downloading RBPNet models from Zenodo...")
     
-    models_dir = Path("models")
-    models_dir.mkdir(exist_ok=True)
+    models_dir = Path("bates_rbp/models")
+    models_dir.mkdir(parents=True, exist_ok=True)
     
     rbpnet_dir = models_dir / "rbpnet"
     rbpnet_dir.mkdir(exist_ok=True)
@@ -43,22 +43,60 @@ def download_rbpnet_models():
         with zipfile.ZipFile(zip_path, 'r') as zip_ref:
             zip_ref.extractall(rbpnet_dir)
         
+        # Check if there's a nested models directory and move its contents up
+        nested_models_dir = rbpnet_dir / "models"
+        if nested_models_dir.exists():
+            print("Moving and renaming models from nested directory...")
+            for item in nested_models_dir.iterdir():
+                if item.is_file() and item.suffix == '.h5':
+                    # Rename files like "ILF3_HepG2.model.h5" to just "model.h5"
+                    # Or "PROTEIN_CELLLINE.model.h5" to "model.h5"
+                    new_name = "model.h5"
+                    destination = rbpnet_dir / new_name
+                    
+                    # If model.h5 already exists, use the original name
+                    if destination.exists():
+                        destination = rbpnet_dir / item.name
+                    
+                    shutil.move(str(item), str(destination))
+                    print(f"Renamed {item.name} to {destination.name}")
+                else:
+                    # Move non-.h5 files as-is
+                    destination = rbpnet_dir / item.name
+                    shutil.move(str(item), str(destination))
+            
+            # Remove the now-empty nested models directory
+            nested_models_dir.rmdir()
+        else:
+            # If no nested directory, rename .h5 files in place
+            print("Renaming model files...")
+            for item in rbpnet_dir.iterdir():
+                if item.is_file() and item.suffix == '.h5':
+                    new_name = "model.h5"
+                    new_path = rbpnet_dir / new_name
+                    
+                    # If model.h5 already exists, keep original name
+                    if not new_path.exists():
+                        item.rename(new_path)
+                        print(f"Renamed {item.name} to {new_name}")
+        
         # Remove the zip file
         zip_path.unlink()
-        print("✅ RBPNet models downloaded and extracted successfully")
+        print("SUCCESS: RBPNet models downloaded and extracted successfully")
         
     except Exception as e:
-        print(f"❌ Failed to download RBPNet models: {e}")
+        print(f"ERROR: Failed to download RBPNet models: {e}")
         return False
     
     return True
 
 def download_deepclip_models():
     """Download DeepCLIP models from GitHub and rename them"""
-    print("📥 Downloading DeepCLIP models from GitHub...")
+    print("Downloading DeepCLIP models from GitHub...")
     
-    models_dir = Path("models")
-    models_dir.mkdir(exist_ok=True)
+    # Changed: models now go in bates_rbp/models/
+    models_dir = Path("bates_rbp/models")
+    models_dir.mkdir(parents=True, exist_ok=True)
     
     deepclip_dir = models_dir / "deepclip"
     deepclip_dir.mkdir(exist_ok=True)
@@ -78,7 +116,7 @@ def download_deepclip_models():
             files = response.json()
             return [f['name'] for f in files if f['name'].endswith('.pkl')]
         except Exception as e:
-            print(f"❌ Failed to get file list for {cell_line}: {e}")
+            print(f"ERROR: Failed to get file list for {cell_line}: {e}")
             return []
     
     success = True
@@ -90,7 +128,7 @@ def download_deepclip_models():
         pkl_files = get_github_files(cell_line)
         
         if not pkl_files:
-            print(f"⚠️  No .pkl files found for {cell_line}")
+            print(f"WARNING: No .pkl files found for {cell_line}")
             continue
         
         for filename in pkl_files:
@@ -115,24 +153,24 @@ def download_deepclip_models():
                 download_file(file_url, output_path)
                 
             except Exception as e:
-                print(f"❌ Failed to download {filename}: {e}")
+                print(f"ERROR: Failed to download {filename}: {e}")
                 success = False
     
     if success:
-        print("✅ DeepCLIP models downloaded and renamed successfully")
+        print("SUCCESS: DeepCLIP models downloaded and renamed successfully")
     else:
-        print("⚠️  Some DeepCLIP models failed to download")
+        print("WARNING: Some DeepCLIP models failed to download")
     
     return success
 
 def main():
     """Main function to download all models"""
-    print("🧬 BATES-RBP Model Downloader")
+    print("BATES-RBP Model Downloader")
     print("=" * 40)
     
-    # Create models directory
-    models_dir = Path("models")
-    models_dir.mkdir(exist_ok=True)
+    # Changed: Create models directory inside bates_rbp/
+    models_dir = Path("bates_rbp/models")
+    models_dir.mkdir(parents=True, exist_ok=True)
     
     success = True
     
@@ -150,7 +188,7 @@ def main():
     print("=" * 40)
     
     if success:
-        print("🎉 All models downloaded successfully!")
+        print("SUCCESS: All models downloaded successfully!")
         print(f"Models are located in: {models_dir.resolve()}")
         
         # Show directory structure
@@ -165,7 +203,7 @@ def main():
             if len(files) > 5:
                 print(f"{subindent}... and {len(files) - 5} more files")
     else:
-        print("⚠️  Some models failed to download. Check the errors above.")
+        print("WARNING: Some models failed to download. Check the errors above.")
         return 1
     
     return 0
