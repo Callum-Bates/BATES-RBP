@@ -40,7 +40,7 @@ Set up the web interface <br>
 
 **1. Activate the main environment**
 ```
-conda activate bates_rbp_TEST
+conda activate bates_rbp
 ```
 
 **2. Launch the app (opens browser)**
