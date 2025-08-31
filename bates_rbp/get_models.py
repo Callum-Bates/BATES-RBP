@@ -20,9 +20,10 @@ def download_file(url, output_path):
         for chunk in response.iter_content(chunk_size=8192):
             f.write(chunk)
     print(f"Downloaded to {output_path}")
-
+import os
 def download_rbpnet_models():
-    """Download RBPNet models from Zenodo"""
+    print(os.getcwd())
+
     print("Downloading RBPNet models from Zenodo...")
     
     models_dir = Path("bates_rbp/models")
@@ -31,64 +32,70 @@ def download_rbpnet_models():
     rbpnet_dir = models_dir / "rbpnet"
     rbpnet_dir.mkdir(exist_ok=True)
     
-    # Zenodo direct download URL
     zenodo_url = "https://zenodo.org/records/10185223/files/RBPNet_models.zip"
     zip_path = rbpnet_dir / "RBPNet_models.zip"
     
     try:
         download_file(zenodo_url, zip_path)
-        
-        # Extract the zip file
         print("Extracting RBPNet models...")
         with zipfile.ZipFile(zip_path, 'r') as zip_ref:
             zip_ref.extractall(rbpnet_dir)
         
-        # Check if there's a nested models directory and move its contents up
-        nested_models_dir = rbpnet_dir / "models"
-        if nested_models_dir.exists():
-            print("Moving and renaming models from nested directory...")
-            for item in nested_models_dir.iterdir():
-                if item.is_file() and item.suffix == '.h5':
-                    # Rename files like "ILF3_HepG2.model.h5" to just "model.h5"
-                    # Or "PROTEIN_CELLLINE.model.h5" to "model.h5"
-                    new_name = "model.h5"
-                    destination = rbpnet_dir / new_name
-                    
-                    # If model.h5 already exists, use the original name
-                    if destination.exists():
-                        destination = rbpnet_dir / item.name
-                    
-                    shutil.move(str(item), str(destination))
-                    print(f"Renamed {item.name} to {destination.name}")
-                else:
-                    # Move non-.h5 files as-is
-                    destination = rbpnet_dir / item.name
-                    shutil.move(str(item), str(destination))
-            
-            # Remove the now-empty nested models directory
-            nested_models_dir.rmdir()
-        else:
-            # If no nested directory, rename .h5 files in place
-            print("Renaming model files...")
-            for item in rbpnet_dir.iterdir():
-                if item.is_file() and item.suffix == '.h5':
-                    new_name = "model.h5"
-                    new_path = rbpnet_dir / new_name
-                    
-                    # If model.h5 already exists, keep original name
-                    if not new_path.exists():
-                        item.rename(new_path)
-                        print(f"Renamed {item.name} to {new_name}")
-        
-        # Remove the zip file
         zip_path.unlink()
+        
+        print("Renaming model files...")
+        model_files = list(rbpnet_dir.rglob("*.model.h5"))
+        print(f"Found {len(model_files)} model files to rename")
+        
+        for model_file in model_files:
+            old_name = model_file.name
+            print(f"Processing: {old_name}")
+            
+            if old_name.endswith('.model.h5'):
+                base_name = old_name[:-9]
+                if '_' in base_name:
+                    protein_name = base_name.split('_')[0]
+                else:
+                    protein_name = base_name
+                
+                new_name = f"{protein_name}.h5"
+                destination = rbpnet_dir / new_name
+                
+                if destination.exists():
+                    print(f"  Duplicate found, removing {old_name}")
+                    model_file.unlink()  # delete the new duplicate
+                else:
+                    shutil.move(str(model_file), str(destination))
+                    print(f"  Renamed to: {new_name}")
+        
+        for item in rbpnet_dir.iterdir():
+            if item.is_dir() and not any(item.iterdir()):
+                item.rmdir()
+                print(f"Removed empty directory: {item.name}")
+        
         print("SUCCESS: RBPNet models downloaded and extracted successfully")
         
     except Exception as e:
         print(f"ERROR: Failed to download RBPNet models: {e}")
+        import traceback
+        traceback.print_exc()
         return False
     
     return True
+
+
+rbpnet_dir = Path("bates_rbp/models/rbpnet")  # change if your files are in another folder
+
+for item in rbpnet_dir.iterdir():
+    if item.is_file() and item.suffix == ".h5":
+        match = re.match(r"(.+?)_[A-Za-z0-9]+\.model\.h5", item.name)
+        if match:
+            protein_name = match.group(1)
+            new_name = f"{protein_name}.h5"
+            new_path = rbpnet_dir / new_name
+            item.rename(new_path)
+            print(f"Renamed {item.name} -> {new_name}")
+
 
 def download_deepclip_models():
     """Download DeepCLIP models from GitHub and rename them"""
