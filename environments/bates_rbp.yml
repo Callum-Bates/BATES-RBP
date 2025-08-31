@@ -1,4 +1,4 @@
-name: bates_rbp_TEST
+name: bates_rbp
 channels:
   - conda-forge
   - defaults
