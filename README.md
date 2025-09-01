@@ -3,6 +3,8 @@
 ## About
 
 BATES-RBP is an RNA-RBP binding prediction and analysis suite.  BATES-RBP allows use of Machine Learning methods to predict RNA-Protein interactions at a per-nucleotide resolution.  It allows visualisation options for results, 3d predictions of RNA structure, and RNA mapping to viral genomes.  BATES-RBP is currently only available on Linux operating systems.
+The basic outline of features currently available is below:
+
 
 
 ## Prerequisites
@@ -70,6 +72,13 @@ Users can extend RNA motifs based on genomic context taken from RNA motif mappin
 
 
 **3. 3D Structure Generation**
+Users can run 3D structure generation of RNA sequences using Boltz-2. This is done by selecting a sequence in the sequence table (A) and clicking generate structure.
+**Note** Boltz-2 predictions can only be run on FASTA sequences where the sequence ID is <6 characters long.
+Users can customise viewing options in the viewer options tab (B) and images of the structre can be downloaded.
+
+
+**4. Accessing RNA Catalogue**
+Users can browse characteristics of RBPs available from DeepCLIP and RBPNet models in the RNA Catalogue tab, and example motifs can be accessed for some proteins (A).
 
 
 
