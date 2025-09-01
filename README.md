@@ -61,6 +61,7 @@ note: must be in BATES-RBP environment as per installation step 1.
 
 The default tab is the ML prediction tab.  Here users can select a ML method (currently DeepCLIP and RBPNet are available) and an associated protein model (A).
 From here, users can either enter RNA sequences in FASTA format, or upload a FASTA file (B).  Once ML prediction model and FASTA sequences are stored, clicking "Run Job" button runs the prediction.
+Completed jobs are added to the results tabe (C).  Each row can be selected, selecting a row automatically display plots associated with that row.  For individual sequence binding plots the "Score Plot" tab is selected.  For plots displaying data relating to all sequences in the FASTA, "Heatmap" and "Sequence Logo" tabs can be selected (D)
 ![Summary Image](image/git_file1.png)
 
 
