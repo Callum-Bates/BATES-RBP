@@ -2,7 +2,7 @@
 
 ## About
 
-BATES-RBP is an RNA-RBP binding prediction and analysis suite. 
+BATES-RBP is an RNA-RBP binding prediction and analysis suite.  BATES-RBP allows use of Machine Learning methods to predict RNA-Protein interactions at a per-nucleotide resolution.  It allows visualisation options for results, 3d predictions of RNA structure, and RNA mapping to viral genomes.  BATES-RBP is currently only available on Linux operating systems.
 
 
 ## Prerequisites
@@ -10,6 +10,7 @@ BATES-RBP is an RNA-RBP binding prediction and analysis suite.
 - Conda 
 - Git
 - Python 3.8+
+- Linux system
 - CUDA (optional, for GPU acceleration for Boltz-2)
 
 
@@ -48,7 +49,19 @@ conda activate bates_rbp
 ```
 bates-rbp
 ```
-note: must be in BATES_RBP environment as per installation step 1.
+note: must be in BATES-RBP environment as per installation step 1.
+
+
+
+## Using BATES-RBP
+
+**1. ML Predictions**
+
+The default tab is the ML prediction tab.  Here users can select a ML method (currently DeepCLIP and RBPNet are available) and an associated protein model (A).
+From here, users can either enter RNA sequences in FASTA format, or upload a FASTA file (B).  Once ML prediction model and FASTA sequences are stored, clicking "Run Job" button runs the prediction
+
+
+<img width="146" height="82" alt="image" src="https://github.com/user-attachments/assets/b3c0301e-8a1a-4bf7-95e9-56119e993c0a" />
 
 
 
