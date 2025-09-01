@@ -4,7 +4,7 @@
 
 BATES-RBP is an RNA-RBP binding prediction and analysis suite.  BATES-RBP allows use of Machine Learning methods to predict RNA-Protein interactions at a per-nucleotide resolution.  It allows visualisation options for results, 3d predictions of RNA structure, and RNA mapping to viral genomes.  BATES-RBP is currently only available on Linux operating systems.
 The basic outline of features currently available is below:
-
+![Summary Image](image/gitfig1.png)
 
 
 ## Prerequisites
