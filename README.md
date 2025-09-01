@@ -4,7 +4,7 @@
 
 BATES-RBP is an RNA-RBP binding prediction and analysis suite.  BATES-RBP allows use of Machine Learning methods to predict RNA-Protein interactions at a per-nucleotide resolution.  It allows visualisation options for results, 3d predictions of RNA structure, and RNA mapping to viral genomes.  BATES-RBP is currently only available on Linux operating systems.
 The basic outline of features currently available is below:
-![Summary Image](image/gitfig6.png)
+![Summary Image](image/git_files6.png)
 
 
 ## Prerequisites
@@ -61,29 +61,29 @@ note: must be in BATES-RBP environment as per installation step 1.
 
 The default tab is the ML prediction tab.  Here users can select a ML method (currently DeepCLIP and RBPNet are available) and an associated protein model (A).
 From here, users can either enter RNA sequences in FASTA format, or upload a FASTA file (B).  Once ML prediction model and FASTA sequences are stored, clicking "Run Job" button runs the prediction.
-![Summary Image](image/gitfig1.png)
+![Summary Image](image/git_file1.png)
 
 
 **2.1 Motif Mapping**
 In the RNA characterisation tab, users can run RNA structure prediction using Boltz-2.  RNA sequences can be added to the sequence table (A) and are added from any sequences used in ML predictions.  
 The user then selects a viral genome for mapping and clicks "Search Selected RNA in Genome" button (B).  Results are displayed in a panel to the right (C).
-![Summary Image](image/gitfig2.png)
+![Summary Image](image/git_files2.png)
 
 **2.2 RNA Extension**
 Users can extend RNA motifs based on genomic context taken from RNA motif mapping.  The user has to select an RNA sequence from the sequence table (A), a RNA match (B) and a nucleotide length (C).  The RNA sequence will be expanded on either side by the chosen number and added to the sequence table with a "_e" prefix (A).
-![Summary Image](image/gitfig3.png)
+![Summary Image](image/git_files3.png)
 
 
 **3. 3D Structure Generation**
 Users can run 3D structure generation of RNA sequences using Boltz-2. This is done by selecting a sequence in the sequence table (A) and clicking generate structure.
 **Note** Boltz-2 predictions can only be run on FASTA sequences where the sequence ID is <6 characters long.
 Users can customise viewing options in the viewer options tab (B) and images of the structre can be downloaded.
-![Summary Image](image/gitfig4.png)
+![Summary Image](image/git_files4.png)
 
 
 **4. Accessing RNA Catalogue**
 Users can browse characteristics of RBPs available from DeepCLIP and RBPNet models in the RNA Catalogue tab, and example motifs can be accessed for some proteins (A).
-![Summary Image](image/gitfig5.png)
+![Summary Image](image/git_files5.png)
 
 
 
