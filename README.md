@@ -61,7 +61,6 @@ The default tab is the ML prediction tab.  Here users can select a ML method (cu
 From here, users can either enter RNA sequences in FASTA format, or upload a FASTA file (B).  Once ML prediction model and FASTA sequences are stored, clicking "Run Job" button runs the prediction
 
 
-<img width="146" height="82" alt="image" src="https://github.com/user-attachments/assets/b3c0301e-8a1a-4bf7-95e9-56119e993c0a" />
 
 
 
