@@ -641,7 +641,7 @@ structure_layout = html.Div([
                 ],
             ),
 
-            # Buttons: Generate then View Structure
+            # Genrate structure button
             html.Div([
                 html.Button(
                     "Generate Structure",
@@ -660,25 +660,8 @@ structure_layout = html.Div([
                         'transition': 'background-color 0.3s ease'
                     }
                 ),
-                html.Button(
-                    "View Structure",
-                    id="view-structure-button",
-                    style={
-                        'backgroundColor': '#394867',
-                        'color': '#f0f4f8',
-                        'border': 'none',
-                        'padding': '8px 18px',
-                        'borderRadius': '6px',
-                        'cursor': 'pointer',
-                        'fontFamily': 'monospace',
-                        'fontSize': '15px',
-                        'fontWeight': '600',
-                        'transition': 'background-color 0.3s ease'
-                    }
-                ),
+
             ], style={'display': 'flex', 'justifyContent': 'flex-start', 'marginBottom': '20px'}),
-
-
 
 
             # Structure Viewer placeholder (can hide/show based on callbacks)
