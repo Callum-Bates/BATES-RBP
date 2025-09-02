@@ -1328,10 +1328,11 @@ def register_callbacks(app):
 
 
 
-# Links user structure button to boltz helpler function.  User selects row in sequence table with corresponding RNA sequence
+# Links user structure button to boltz helper function.  
+# User selects row in sequence table with corresponding RNA sequence
     @app.callback(
         Output('structure-status-div', 'children'),
-        Output('sequence-table', 'data', allow_duplicate=True),  # <-- Add this line
+        Output('sequence-table', 'data', allow_duplicate=True),
         Input('structure-button', 'n_clicks'),
         State('sequence-table', 'selected_rows'),
         State('sequence-table', 'data'),
@@ -1345,16 +1346,21 @@ def register_callbacks(app):
         selected_row = data_first[selected_index]
         seq_id = selected_row['SequenceID']
 
+        #Max sequence ID length for boltz-2 is 6 characters for some reason
+        if len(seq_id) > 5:
+            return (
+                f"❌ Sequence ID '{seq_id}' is too long (max 5 characters). "
+                "Please add the same sequence to the table with a shorter ID and try again.",
+                data_first
+            )
+
         try:
             summary = run_boltz_structure([seq_id])
-            
-            # Set status emoji
-            if "Completed" in summary:
-                status_icon = "✅"
-            else:
-                status_icon = "❌"
 
-            # Update the table data  -  changes emoji if generated
+            # Set status emoji - can be something more professional
+            status_icon = "✅" if "Completed" in summary else "❌"
+
+            # Update the table data - change emoji if generated
             updated_data = data_first.copy()
             updated_data[selected_index]['boltz-status'] = status_icon
 
@@ -1362,7 +1368,6 @@ def register_callbacks(app):
 
         except Exception as e:
             return f"Error generating structure for {seq_id}: {str(e)}", data_first
-
 
 # User can select RNA from dropdown menu of sequences for which structure has been generated. DIsplayed in viewer sub tab
     @app.callback(
